@@ -28,43 +28,31 @@ public class MainActivity extends AppCompatActivity {
 
         getFragment(new HomeFragment());
 
-
-
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.home:
                         getSupportActionBar().setTitle("Home");
-                        getFragment(new HomeFragment());
-                        break;
-
+                        return getFragment(new HomeFragment());
 
                     case R.id.consumption:
                         getSupportActionBar().setTitle("Consumption");
-                        getFragment(new ConsumptionFragment());
-                        break;
-
+                        return getFragment(new ConsumptionFragment());
 
                     case R.id.run:
                         getSupportActionBar().setTitle("Exercise");
-                        getFragment(new ExerciseFragment());
-                        break;
-
+                        return getFragment(new ExerciseFragment());
 
                     case R.id.idea:
                         getSupportActionBar().setTitle("Ideas");
-                        getFragment(new IdeaFragment());
-                        break;
+                        return getFragment(new IdeaFragment());
                 }
-
 
                 return false;
             }
         });
-        bottomNavigationView.setSelectedItemId(R.id.home);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
@@ -73,11 +61,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getFragment(Fragment fragment) {
+    private boolean getFragment(Fragment fragment) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container_view, fragment);
         fragmentTransaction.commit();
+        return true;
     }
 
 
