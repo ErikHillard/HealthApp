@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">HealthApp</string>
+    <string name="app_name">Two Hats Guessing Game</string>
+    <string name="labelPlayer01">Player One\'s Value</string>
+    <string name="labelPlayer02">Player Two\'s Value</string>
+    <string name="color01">Red</string>
+    <string name="color02">Blue</string>
+    <string name="buttonComputerGuess">Have Computer Make Guesses\nExactly One Will Be Correct</string>
+    <string name="blank"/>
+
+    <string-array name="colors_array">
+        <item>@string/color01</item>
+        <item>@string/color02</item>
+    </string-array>
 </resources>
