@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    foodName, calories, sodium, sugar
+
+    <EditText
+        android:id="@+id/foodName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:hint="Food Item"
+        android:textAlignment="center"
+        android:textSize="24dp" />
+
+    <EditText
+        android:id="@+id/calories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/foodName"
+        android:layout_marginTop="20dp"
+        android:textSize="24dp"
+        android:hint="Calories"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/sodium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calories"
+        android:layout_marginTop="20dp"
+        android:textSize="24dp"
+        android:hint="Sodium"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/sugar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sodium"
+        android:layout_marginTop="20dp"
+        android:textSize="24dp"
+        android:hint="Sugar"
+        android:textAlignment="center"/>
+
+    <Button
+        android:id="@+id/addOtherFoodItemSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sugar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="20dp"
+        android:text="Save" />
+
+    <Button
+        android:id="@+id/addOtherFoodItemCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sugar"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="55dp"
+        android:text="Cancel" />
+
+
+</RelativeLayout>
