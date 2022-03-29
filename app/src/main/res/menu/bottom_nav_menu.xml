@@ -10,7 +10,7 @@
         android:icon="@drawable/ic_consumption_foreground"/>
     <item
         android:id="@+id/run"
-        android:title="Run"
+        android:title="Exercise"
         android:icon="@drawable/ic_run_foreground"/>
     <item
         android:id="@+id/idea"
