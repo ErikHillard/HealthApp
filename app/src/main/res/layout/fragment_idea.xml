@@ -15,7 +15,7 @@
         android:layout_marginTop="14dp"
         android:text="You're doing great!"
         android:textAlignment="center"
-        android:textColor="#43a047"
+        android:textColor="@color/colorPrimary"
         android:textSize="40sp"
         android:textStyle="italic|bold" />
 

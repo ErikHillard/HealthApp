@@ -15,7 +15,8 @@
         android:layout_marginTop="50dp"
         android:hint="Food Item"
         android:textAlignment="center"
-        android:textSize="24dp" />
+        android:textSize="24dp"
+        android:textColor="@color/colorAccent"/>
 
     <EditText
         android:id="@+id/calories"
@@ -25,7 +26,8 @@
         android:layout_marginTop="20dp"
         android:textSize="24dp"
         android:hint="Calories"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"/>
 
     <EditText
         android:id="@+id/sodium"
@@ -35,7 +37,8 @@
         android:layout_marginTop="20dp"
         android:textSize="24dp"
         android:hint="Sodium"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"/>
 
     <EditText
         android:id="@+id/sugar"
@@ -45,7 +48,8 @@
         android:layout_marginTop="20dp"
         android:textSize="24dp"
         android:hint="Sugar"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"/>
 
     <Button
         android:id="@+id/addOtherFoodItemSave"
@@ -55,7 +59,8 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="55dp"
         android:layout_marginTop="20dp"
-        android:text="Save" />
+        android:text="Save"
+        android:backgroundTint="@color/colorPrimary"/>
 
     <Button
         android:id="@+id/addOtherFoodItemCancel"
@@ -65,7 +70,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="55dp"
-        android:text="Cancel" />
+        android:text="Cancel"
+        android:backgroundTint="@color/colorPrimary"/>
 
 
 </RelativeLayout>
