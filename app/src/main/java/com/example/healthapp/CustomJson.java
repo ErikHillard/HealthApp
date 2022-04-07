@@ -25,8 +25,8 @@ public class CustomJson {
     Gson gson;
     String json_string = "{" +
             "\"food\":[" +
-                "{\"Chicken Breast\":\"6\",\"Frosted Flakes\":\"1\",\"Pop Tart\":\"1\"}," +
-                "{\"Chicken Breast\":\"1\",\"Frosted Flakes\":\"1\",\"Pop Tart\":\"8\"}" +
+                "{\"Chicken Breast\":\"6\",\"Potato Chips\":\"6\",\"Pop Tarts\":\"1\"}," +
+                "{\"Chicken Breast\":\"6\",\"Potato Chips\":\"6\",\"Pop Tarts\":\"8\"}" +
             "]," +
             "\"exercise\":[" +
                 "{\"Running\":\"30\",\"Walking\":\"20\"}," +
@@ -41,11 +41,12 @@ public class CustomJson {
             "}]," +
             "\"food_data\":[" +
                 "{\"Name\":\"Chicken Breast\",\"Calories\":\"130\",\"Protein\":\"20\"}," +
-                "{\"Name\":\"Pop Tart\",\"Calories\":\"240\",\"Protein\":\"2\"}" +
+                "{\"Name\":\"Potato Chips\",\"Calories\":\"150\",\"Protein\":\"2\"}," +
+                "{\"Name\":\"Pop Tarts\",\"Calories\":\"240\",\"Protein\":\"2\"}" +
             "]," +
             "\"exercise_data\":[" +
-                "{\"Name\":\"Running\",\"Calories\":\"400\"}," +
-                "{\"Name\":\"Walking\",\"Calories\":\"40\"}" +
+                "{\"Name\":\"Running\",\"Calories\":\"300\"}," +
+                "{\"Name\":\"Walking\",\"Calories\":\"80\"}" +
             "]" +
         "}";
     HashMap<String, ArrayList<HashMap<String,String>>> data;
@@ -199,7 +200,7 @@ public class CustomJson {
 
     public ArrayList<HashMap<String,String>> getFoodData() {
         ArrayList<HashMap<String,String>> ret = new ArrayList(data.get("food_data").size());
-        for (int i=0;i<data.get("food").size();i++) {
+        for (int i=0;i<data.get("food_data").size();i++) {
             ret.add(new HashMap(data.get("food_data").get(i)));
         }
         return ret;
@@ -207,7 +208,7 @@ public class CustomJson {
 
     public ArrayList<HashMap<String,String>> getExerciseData() {
         ArrayList<HashMap<String,String>> ret = new ArrayList(data.get("exercise_data").size());
-        for (int i=0;i<data.get("food").size();i++) {
+        for (int i=0;i<data.get("exercise_data").size();i++) {
             ret.add(new HashMap(data.get("exercise_data").get(i)));
         }
         return ret;
