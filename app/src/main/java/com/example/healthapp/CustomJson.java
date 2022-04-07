@@ -90,7 +90,7 @@ public class CustomJson {
     public void addFoodForDay(String food, String amount, int day) {
         HashMap<String,String> day_data = data.get("food").get(day);
         if (day_data.containsKey(food)) {
-            day_data.replace(food, amount);
+            day_data.replace(food, amount+Double.parseDouble(day_data.get(food)));
         } else {
             day_data.put(food, amount);
         }
@@ -99,7 +99,7 @@ public class CustomJson {
     public void addExerciseForDay(String exercise, String amount, int day) {
         HashMap<String,String> day_data = data.get("exercise").get(day);
         if (day_data.containsKey(exercise)) {
-            day_data.replace(exercise, amount);
+            day_data.replace(exercise, amount+Double.parseDouble(day_data.get(exercise)));
         } else {
             day_data.put(exercise, amount);
         }
