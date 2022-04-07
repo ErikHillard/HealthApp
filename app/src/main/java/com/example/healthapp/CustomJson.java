@@ -23,22 +23,22 @@ public class CustomJson {
     Gson gson;
     String json_string = "{" +
             "\"food\":[" +
-                "{\"Chicken Breast\":2,\"Frosted Flakes\":1,\"Pop Tart\":0.5}," +
-                "{\"Chick-fil-A Sandwich\":1, \"Bagel\":1,\"Cream Cheese\":1.5}" +
+            "{\"Chicken Breast\":2,\"Frosted Flakes\":1,\"Pop Tart\":0.5}," +
+            "{\"Chick-fil-A Sandwich\":1, \"Bagel\":1,\"Cream Cheese\":1.5}" +
             "]," +
             "\"exercise\":[" +
-                "{\"Running\":20,\"Walking\":20}," +
-                "{\"Pushups\":30, \"Walking\":30}" +
+            "{\"Running\":20,\"Walking\":20}," +
+            "{\"Pushups\":30, \"Walking\":30}" +
             "]," +
             "\"food_goals\":[{" +
-                "\"Calories\":2200," +
-                "\"Carbs\":60" +
+            "\"Calories\":2200," +
+            "\"Carbs\":60" +
             "}]," +
             "\"exercise_goals\":[{" +
-                "\"Calories\":200," +
-                "\"Steps\":10000" +
+            "\"Calories\":200," +
+            "\"Steps\":10000" +
             "}]" +
-        "}";
+            "}";
     HashMap<String, HashMap<String,Double>[]> data;
 
     public CustomJson(File file) {

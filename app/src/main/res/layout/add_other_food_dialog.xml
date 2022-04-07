@@ -4,52 +4,64 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    foodName, calories, sodium, sugar
-
     <EditText
         android:id="@+id/foodName"
-        android:layout_width="match_parent"
+        android:layout_width="224dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="50dp"
-        android:hint="Food Item"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="0dp"
+        android:hint="Food Name"
+        android:inputType="text"
+        android:maxLines="1"
         android:textAlignment="center"
-        android:textSize="24dp"
-        android:textColor="@color/colorAccent"/>
+        android:textColor="@color/colorAccent"
+        android:textSize="24dp" />
 
     <EditText
         android:id="@+id/calories"
-        android:layout_width="match_parent"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/foodName"
         android:layout_marginTop="20dp"
-        android:textSize="24dp"
-        android:hint="Calories"
+        android:layout_marginEnd="0dp"
+        android:layout_toStartOf="@+id/textView3"
+        android:hint="Calories (cal)"
+        android:inputType="number"
+        android:maxLines="1"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"/>
+        android:textColor="@color/colorAccent"
+        android:textSize="24dp" />
 
     <EditText
         android:id="@+id/sodium"
-        android:layout_width="match_parent"
+        android:layout_width="157dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/calories"
         android:layout_marginTop="20dp"
-        android:textSize="24dp"
-        android:hint="Sodium"
+        android:layout_marginEnd="0dp"
+        android:layout_toStartOf="@+id/textView5"
+        android:hint="Sodium (mg)"
+        android:inputType="number"
+        android:maxLines="1"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"/>
+        android:textColor="@color/colorAccent"
+        android:textSize="24dp" />
 
     <EditText
         android:id="@+id/sugar"
-        android:layout_width="match_parent"
+        android:layout_width="151dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sodium"
         android:layout_marginTop="20dp"
-        android:textSize="24dp"
-        android:hint="Sugar"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/textView7"
+        android:hint="Sugar (g)"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"/>
+        android:textColor="@color/colorAccent"
+        android:textSize="24dp" />
 
     <Button
         android:id="@+id/addOtherFoodItemSave"
@@ -70,8 +82,100 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="55dp"
-        android:text="Cancel"
-        android:backgroundTint="@color/colorPrimary"/>
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Cancel" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="Add Other Food Item"
+        android:textAlignment="center"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="50dp"
+        android:text="Food Name:"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/foodName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="5dp"
+        android:text="cal"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="50dp"
+        android:text="Calories:"
+        android:textAlignment="center"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="5dp"
+        android:text="mg"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="55dp"
+        android:text="Sodium (Optional):"
+        android:textAlignment="center"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView5"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="49dp"
+        android:layout_marginEnd="17dp"
+        android:text="g"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView6"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="50dp"
+        android:text="Sugar (Optional):"
+        android:textAlignment="center"
+        android:textSize="15dp" />
 
 
 </RelativeLayout>
