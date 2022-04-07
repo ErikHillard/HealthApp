@@ -15,6 +15,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class CustomJson {
@@ -23,36 +25,52 @@ public class CustomJson {
     Gson gson;
     String json_string = "{" +
             "\"food\":[" +
-            "{\"Chicken Breast\":2,\"Frosted Flakes\":1,\"Pop Tart\":0.5}," +
-            "{\"Chick-fil-A Sandwich\":1, \"Bagel\":1,\"Cream Cheese\":1.5}" +
+            "{\"Chicken Breast\":\"6\",\"Potato Chips\":\"6\",\"Pop Tarts\":\"1\"}," +
+            "{\"Chicken Breast\":\"6\",\"Potato Chips\":\"6\",\"Pop Tarts\":\"8\"}" +
             "]," +
             "\"exercise\":[" +
-            "{\"Running\":20,\"Walking\":20}," +
-            "{\"Pushups\":30, \"Walking\":30}" +
+            "{\"Running\":\"30\",\"Walking\":\"20\"}," +
+            "{\"Pushups\":\"30\", \"Running\":\"30\"}" +
             "]," +
             "\"food_goals\":[{" +
-            "\"Calories\":2200," +
-            "\"Carbs\":60" +
+            "\"Calories\":\"2200\"," +
+            "\"Protein\":\"50\"" +
             "}]," +
             "\"exercise_goals\":[{" +
-            "\"Calories\":200," +
-            "\"Steps\":10000" +
-            "}]" +
+            "\"Calories\":\"200\"" +
+            "}]," +
+            "\"food_data\":[" +
+            "{\"Name\":\"Chicken Breast\",\"Calories\":\"130\",\"Protein\":\"20\"}," +
+            "{\"Name\":\"Potato Chips\",\"Calories\":\"150\",\"Protein\":\"2\"}," +
+            "{\"Name\":\"Pop Tarts\",\"Calories\":\"240\",\"Protein\":\"2\"}" +
+            "]," +
+            "\"exercise_data\":[" +
+            "{\"Name\":\"Running\",\"Calories\":\"300\"}," +
+            "{\"Name\":\"Walking\",\"Calories\":\"80\"}" +
+            "]" +
             "}";
-    HashMap<String, HashMap<String,Double>[]> data;
+    HashMap<String, ArrayList<HashMap<String,String>>> data;
 
     public CustomJson(File file) {
         this.file = file;
         gson = new Gson();
         data = new HashMap<>();
-        if (!file.exists()) {//change this to true to reset json file to default state (json_string)
+        if (!file.exists() || true) {//change this to true to reset json file to default state (json_string)
             writeFile();
         }
         readFile();
     }
 
-    public void addFoodGoal(String attr, double val) {
-        HashMap<String, Double> goals = data.get("food_goals")[0];
+    public void saveFood(HashMap<String,String> item) {
+        data.get("food_data").add(item);
+    }
+
+    public void saveExercise(HashMap<String,String> item) {
+        data.get("exercise_data").add(item);
+    }
+
+    public void addFoodGoal(String attr, String val) {
+        HashMap<String, String> goals = data.get("food_goals").get(0);
         if (goals.containsKey(attr)) {
             goals.replace(attr, val);
         } else {
@@ -60,8 +78,8 @@ public class CustomJson {
         }
     }
 
-    public void addExerciseGoal(String attr, double val) {
-        HashMap<String, Double> goals = data.get("exercise_goals")[0];
+    public void addExerciseGoal(String attr, String val) {
+        HashMap<String, String> goals = data.get("exercise_goals").get(0);
         if (goals.containsKey(attr)) {
             goals.replace(attr, val);
         } else {
@@ -69,8 +87,8 @@ public class CustomJson {
         }
     }
 
-    public void addFoodForDay(String food, double amount, int day) {
-        HashMap<String,Double> day_data = data.get("food")[day];
+    public void addFoodForDay(String food, String amount, int day) {
+        HashMap<String,String> day_data = data.get("food").get(day);
         if (day_data.containsKey(food)) {
             day_data.replace(food, amount);
         } else {
@@ -78,8 +96,8 @@ public class CustomJson {
         }
     }
 
-    public void addExerciseForDay(String exercise, double amount, int day) {
-        HashMap<String,Double> day_data = data.get("exercise")[day];
+    public void addExerciseForDay(String exercise, String amount, int day) {
+        HashMap<String,String> day_data = data.get("exercise").get(day);
         if (day_data.containsKey(exercise)) {
             day_data.replace(exercise, amount);
         } else {
@@ -130,75 +148,97 @@ public class CustomJson {
         data = new HashMap();
 
         JsonArray ja = json_data.get("food").getAsJsonArray();
-        data.put("food", gson.fromJson(ja, HashMap[].class));
+        data.put("food", gson.fromJson(ja, ArrayList.class));
 
         ja = json_data.get("exercise").getAsJsonArray();
-        data.put("exercise", gson.fromJson(ja, HashMap[].class));
+        data.put("exercise", gson.fromJson(ja, ArrayList.class));
 
         ja = json_data.get("food_goals").getAsJsonArray();
-        data.put("food_goals", new HashMap[]{gson.fromJson(ja.get(0), HashMap.class)});
+        data.put("food_goals", new ArrayList(Arrays.asList(gson.fromJson(ja.get(0), HashMap.class))));
 
         ja = json_data.get("exercise_goals").getAsJsonArray();
-        data.put("exercise_goals", new HashMap[]{gson.fromJson(ja.get(0), HashMap.class)});
+        data.put("exercise_goals", new ArrayList(Arrays.asList(gson.fromJson(ja.get(0), HashMap.class))));
+
+        ja = json_data.get("food_data").getAsJsonArray();
+        data.put("food_data", gson.fromJson(ja, ArrayList.class));
+
+        ja = json_data.get("exercise_data").getAsJsonArray();
+        data.put("exercise_data", gson.fromJson(ja, ArrayList.class));
     }
 
-    public HashMap<String, Double> getFoodDay(int day) {
-        return new HashMap(data.get("food")[day]);
+    public HashMap<String, String> getFoodDay(int day) {
+        return new HashMap(data.get("food").get(day));
     }
 
-    public HashMap<String, Double>[] getAllFood() {
-        HashMap<String,Double>[] ret = new HashMap[data.get("food").length];
-        for (int i=0;i<ret.length;i++) {
-            ret[i] = new HashMap(data.get("food")[i]);
+    public ArrayList<HashMap<String, String>> getAllFood() {
+        ArrayList<HashMap<String,String>> ret = new ArrayList(data.get("food").size());
+        for (int i=0;i<data.get("food").size();i++) {
+            ret.add(new HashMap(data.get("food").get(i)));
         }
         return ret;
     }
 
-    public HashMap<String, Double> getExerciseDay(int day) {
-        return new HashMap(data.get("exercise")[day]);
+    public HashMap<String, String> getExerciseDay(int day) {
+        return new HashMap(data.get("exercise").get(day));
     }
 
-    public HashMap<String, Double>[] getAllExercise() {
-        HashMap<String,Double>[] ret = new HashMap[data.get("exercise").length];
-        for (int i=0;i<ret.length;i++) {
-            ret[i] = new HashMap(data.get("exercise")[i]);
+    public ArrayList<HashMap<String,String>> getAllExercise() {
+        ArrayList<HashMap<String,String>> ret = new ArrayList(data.get("exercise").size());
+        for (int i=0;i<data.get("food").size();i++) {
+            ret.add(new HashMap(data.get("exercise").get(i)));
         }
         return ret;
     }
 
-    public HashMap<String, Double> getFoodGoals() {
-        return new HashMap(data.get("food_goals")[0]);
+    public HashMap<String, String> getFoodGoals() {
+        return new HashMap(data.get("food_goals").get(0));
     }
 
-    public HashMap<String, Double> getExerciseGoals() {
-        return new HashMap(data.get("exercise_goals")[0]);
+    public HashMap<String, String> getExerciseGoals() {
+        return new HashMap(data.get("exercise_goals").get(0));
+    }
+
+    public ArrayList<HashMap<String,String>> getFoodData() {
+        ArrayList<HashMap<String,String>> ret = new ArrayList(data.get("food_data").size());
+        for (int i=0;i<data.get("food_data").size();i++) {
+            ret.add(new HashMap(data.get("food_data").get(i)));
+        }
+        return ret;
+    }
+
+    public ArrayList<HashMap<String,String>> getExerciseData() {
+        ArrayList<HashMap<String,String>> ret = new ArrayList(data.get("exercise_data").size());
+        for (int i=0;i<data.get("exercise_data").size();i++) {
+            ret.add(new HashMap(data.get("exercise_data").get(i)));
+        }
+        return ret;
     }
 
     public void removeFoodFromDay(String food, int day) {
-        if (day >= 0 && day < data.getOrDefault("food", new HashMap[]{}).length) {
-            if (data.get("food")[day].containsKey(food)) {
-                data.get("food")[day].remove(food);
+        if (day >= 0 && day < data.getOrDefault("food", new ArrayList()).size()) {
+            if (data.get("food").get(day).containsKey(food)) {
+                data.get("food").get(day).remove(food);
             }
         }
     }
 
     public void removeExerciseFromDay(String exercise, int day) {
-        if (day >= 0 && day < data.getOrDefault("exercise", new HashMap[]{}).length) {
-            if (data.get("exercise")[day].containsKey(exercise)) {
-                data.get("exercise")[day].remove(exercise);
+        if (day >= 0 && day < data.getOrDefault("exercise", new ArrayList()).size()) {
+            if (data.get("exercise").get(day).containsKey(exercise)) {
+                data.get("exercise").get(day).remove(exercise);
             }
         }
     }
 
     public void removeFoodGoal(String attr) {
-        if (data.get("food_goals")[0].containsKey(attr)) {
-            data.get("food_goals")[0].remove(attr);
+        if (data.get("food_goals").get(0).containsKey(attr)) {
+            data.get("food_goals").get(0).remove(attr);
         }
     }
 
     public void removeExerciseGoal(String attr) {
-        if (data.get("exercise_goals")[0].containsKey(attr)) {
-            data.get("exercise_goals")[0].remove(attr);
+        if (data.get("exercise_goals").get(0).containsKey(attr)) {
+            data.get("exercise_goals").get(0).remove(attr);
         }
     }
 }
