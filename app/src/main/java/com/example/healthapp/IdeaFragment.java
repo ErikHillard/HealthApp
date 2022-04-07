@@ -10,16 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class IdeaFragment extends Fragment {
 
     CustomJson cj;
     final HashMap<String,String> replacements = new HashMap<String,String>(){{
-        put("Pop Tarts", "Granola bars");
-        put("Potato chips", "Veggie straws");
+        put("Pop Tarts", "Granola Bars");
+        put("Potato Chips", "Veggie Straws");
     }};
     final HashMap<String,String> additions = new HashMap<String,String>(){{
         put("Protein", "Yogurt in the morning");
@@ -45,11 +48,13 @@ public class IdeaFragment extends Fragment {
 
         HashMap<String,Boolean>[] met_food_goals = new HashMap[food.size()];
         HashMap<String,Boolean>[] met_ex_goals = new HashMap[ex.size()];
+        HashSet<String> foods_eaten = new HashSet<>();
 
         double sum;
         String name;
         boolean res;
         for (int i = 0;i < food.size(); i++) {
+            foods_eaten.addAll(food.get(i).keySet());
             met_food_goals[i] = new HashMap<>();
             met_ex_goals[i] = new HashMap<>();
             for (String fd : food_goals.keySet()) {
@@ -79,20 +84,28 @@ public class IdeaFragment extends Fragment {
                 vw.findViewById(R.id.nutrition_2),vw.findViewById(R.id.nutrition_3)}));
         ArrayList<TextView> exer_tvs = new ArrayList<>(Arrays.asList(new TextView[]{vw.findViewById(R.id.exercise_1),
                 vw.findViewById(R.id.exercise_2)}));
+        exer_tvs.get(1).setVisibility(View.GONE);
+        exer_tvs.remove(1);
 
         ArrayList<TextView> disp_nutr_tvs = new ArrayList<>();
         ArrayList<TextView> disp_exer_tvs = new ArrayList<>();
 
+        HashSet<String> rec_food = new HashSet<>(foods_eaten);
+        rec_food.retainAll(replacements.keySet());
+        ArrayList<String> rc_food = new ArrayList(Arrays.asList(rec_food.toArray()));
+        String rec;
         for (HashMap<String,Boolean> goal : met_food_goals) {
             for (String attr : goal.keySet()) {
                 if (!goal.get(attr) && !nutr_tvs.isEmpty()) {
-                    disp_nutr_tvs.add(nutr_tvs.remove(0));
                     if (attr.equals("Protein")) {
+                        disp_nutr_tvs.add(nutr_tvs.remove(0));
                         disp_nutr_tvs.get(disp_nutr_tvs.size()-1).setText("If you're low on " + attr +
                                 ", try adding some " + additions.get(attr));
-                    } else {
+                    } else if (!rc_food.isEmpty()) {
+                        disp_nutr_tvs.add(nutr_tvs.remove(0));
+                        rec = rc_food.remove(0);
                         disp_nutr_tvs.get(disp_nutr_tvs.size()-1).setText("If you want to cut calories, " +
-                                "try replacing " + "Pop Tarts" + " with " + replacements.get("Pop Tarts"));
+                                "try replacing " + rec + " with " + replacements.get(rec));
                     }
                 }
             }
