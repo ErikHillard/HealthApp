@@ -38,7 +38,7 @@ public class IdeaFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View vw = inflater.inflate(R.layout.fragment_idea, container, false);
-
+        
         HashMap<String,String> food_goals = cj.getFoodGoals();
         HashMap<String,String> ex_goals = cj.getExerciseGoals();
         ArrayList<HashMap<String,String>> food = cj.getAllFood();
@@ -56,18 +56,20 @@ public class IdeaFragment extends Fragment {
         for (int i = 0;i < food.size(); i++) {
             foods_eaten.addAll(food.get(i).keySet());
             met_food_goals[i] = new HashMap<>();
-            met_ex_goals[i] = new HashMap<>();
             for (String fd : food_goals.keySet()) {
                 sum = 0;
-                for (HashMap<String,String> fdta : food_data) {
+                for (HashMap<String, String> fdta : food_data) {
                     name = fdta.get("Name");
                     if (food.get(i).containsKey(name) && fdta.containsKey(fd)) {
-                        sum += Double.parseDouble(food.get(i).get(name))*Double.parseDouble(fdta.get(fd));
+                        sum += Double.parseDouble(food.get(i).get(name)) * Double.parseDouble(fdta.get(fd));
                     }
                 }
                 res = Double.parseDouble(food_goals.get(fd)) <= sum;
                 met_food_goals[i].put(fd, (fd.equals("Calories")) != res);
             }
+        }
+        for (int i = 0;i < ex.size(); i++) {
+            met_ex_goals[i] = new HashMap<>();
             for (String exer : ex_goals.keySet()) {
                 sum = 0;
                 for (HashMap<String,String> exta : ex_data) {

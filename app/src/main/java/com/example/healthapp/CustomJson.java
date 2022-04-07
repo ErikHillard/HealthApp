@@ -88,18 +88,26 @@ public class CustomJson {
     }
 
     public void addFoodForDay(String food, String amount, int day) {
+        if (day >= data.get("food").size()) {
+            data.get("food").ensureCapacity(day+1);
+            data.get("food").add(day,new HashMap<String,String>());
+        }
         HashMap<String,String> day_data = data.get("food").get(day);
         if (day_data.containsKey(food)) {
-            day_data.replace(food, amount);
+            day_data.replace(food, amount+Double.parseDouble(day_data.get(food)));
         } else {
             day_data.put(food, amount);
         }
     }
 
     public void addExerciseForDay(String exercise, String amount, int day) {
+        if (day >= data.get("exercise").size()) {
+            data.get("exercise").ensureCapacity(day+1);
+            data.get("exercise").add(day,new HashMap<String,String>());
+        }
         HashMap<String,String> day_data = data.get("exercise").get(day);
         if (day_data.containsKey(exercise)) {
-            day_data.replace(exercise, amount);
+            day_data.replace(exercise, amount+Double.parseDouble(day_data.get(exercise)));
         } else {
             day_data.put(exercise, amount);
         }
@@ -184,7 +192,7 @@ public class CustomJson {
 
     public ArrayList<HashMap<String,String>> getAllExercise() {
         ArrayList<HashMap<String,String>> ret = new ArrayList(data.get("exercise").size());
-        for (int i=0;i<data.get("food").size();i++) {
+        for (int i=0;i<data.get("exercise").size();i++) {
             ret.add(new HashMap(data.get("exercise").get(i)));
         }
         return ret;
