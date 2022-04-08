@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
@@ -77,8 +76,11 @@ public class LoginFragment extends Fragment {
                 Fragment newFragment = new RegisterFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-                transaction.replace(R.id.fragment_login_container, newFragment);
+                    transaction.setCustomAnimations(R.anim.slide_in, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out);
+
                 transaction.addToBackStack(null);
+                transaction.replace(R.id.fragment_login_container, newFragment);
+
 
                 transaction.commit();
             }
