@@ -22,6 +22,14 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Home");
 
         getFragment(new HomeFragment());
+        Bundle extras = getIntent().getExtras();
+
+        // TODO: Write these to json only if needed.
+        if (extras != null) {
+            String value = extras.getString("key");
+        } else {
+            // TODO: Set default parameters for a user.
+        }
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -54,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fragment_container_view, HomeFragment.class, null)
                     .commit();
         }
+
+
     }
 
     private boolean getFragment(Fragment fragment) {
