@@ -100,6 +100,7 @@ public class LoginFragment extends Fragment {
                 (username.getText().toString().equals("user")
                 && password.getText().toString().equals("pass"))){
             setArguments(null);
+            password.setText("");
             Intent switchActivity = new Intent(getActivity(), MainActivity.class);
             switchActivity.putExtra("Username", username.getText().toString());
             switchActivity.putExtra("NewUser", false);
