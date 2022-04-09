@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.run:
                         getSupportActionBar().setTitle("Exercise");
-                        return getFragment(new ExerciseFragment());
+                        return getFragment(new ExerciseFragment(getFilesDir()));
 
                     case R.id.idea:
                         getSupportActionBar().setTitle("Ideas");
