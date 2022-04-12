@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
 
     <TextView
         android:id="@+id/exerciseFragment"
@@ -37,6 +37,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.147" />
 
+
+    <TextView
+        android:id="@+id/test_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ASDJLKAFK:LLKAJFKLASF"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="italic|bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.633" />
+
     <ProgressBar
         android:id="@+id/pBar"
         style="?android:attr/progressBarStyleHorizontal"
@@ -45,7 +60,7 @@
         android:layout_below="@+id/progress_number"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="124dp"
         android:indeterminate="false"
         android:max="250"
         android:minWidth="200dp"
@@ -56,6 +71,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exerciseFragment"
         tools:ignore="MissingConstraints" />
+
+
+<!--    <ScrollView-->
+<!--        android:id="@+id/scrollView1"-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentLeft="true"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:background="#3d455b"-->
+<!--        android:visibility="visible"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/exerciseFragment"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.125">-->
+
+<!--        <HorizontalScrollView-->
+<!--            android:id="@+id/hscrll1"-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/RelativeLayout1"-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="fill_parent"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <TableLayout-->
+<!--                    android:id="@+id/table_main"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerHorizontal="true"></TableLayout>-->
+<!--            </RelativeLayout>-->
+<!--        </HorizontalScrollView>-->
+<!--    </ScrollView>-->
+
+
 
     <Button
         android:id="@+id/addOtherExcerciseItem"

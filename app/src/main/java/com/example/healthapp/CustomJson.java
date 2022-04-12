@@ -105,6 +105,7 @@ public class CustomJson {
             data.get("exercise").ensureCapacity(day+1);
             data.get("exercise").add(day,new HashMap<String,String>());
         }
+
         HashMap<String,String> day_data = data.get("exercise").get(day);
         if (day_data.containsKey(exercise)) {
             day_data.replace(exercise, amount+Double.parseDouble(day_data.get(exercise)));
