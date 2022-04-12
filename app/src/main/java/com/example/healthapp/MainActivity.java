@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.consumption:
                         getSupportActionBar().setTitle("Consumption");
-                        return getFragment(new ConsumptionFragment(getFilesDir()));
+                        return getFragment(new ConsumptionHomeFragment(getFilesDir()));
 
                     case R.id.run:
                         getSupportActionBar().setTitle("Exercise");

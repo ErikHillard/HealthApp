@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CustomJson {
 
@@ -26,7 +27,7 @@ public class CustomJson {
     String json_string = "{" +
             "\"food\":[" +
             "{\"Chicken Breast\":\"6\",\"Potato Chips\":\"6\",\"Pop Tarts\":\"1\"}," +
-            "{\"Chicken Breast\":\"6\",\"Potato Chips\":\"6\",\"Pop Tarts\":\"8\"}" +
+            "{\"Potato Chips\":\"6\",\"Pop Tarts\":\"8\"}" +
             "]," +
             "\"exercise\":[" +
             "{\"Running\":\"30\",\"Walking\":\"20\"}," +
@@ -40,9 +41,9 @@ public class CustomJson {
             "\"Calories\":\"200\"" +
             "}]," +
             "\"food_data\":[" +
-            "{\"Name\":\"Chicken Breast\",\"Calories\":\"130\",\"Protein\":\"20\"}," +
-            "{\"Name\":\"Potato Chips\",\"Calories\":\"150\",\"Protein\":\"2\"}," +
-            "{\"Name\":\"Pop Tarts\",\"Calories\":\"240\",\"Protein\":\"2\"}" +
+            "{\"Name\":\"Chicken Breast\",\"Calories\":\"130\",\"Protein\":\"20\",\"Sodium\":\"5\"}," +
+            "{\"Name\":\"Potato Chips\",\"Calories\":\"150\",\"Protein\":\"2\",\"Sodium\":\"10\"}," +
+            "{\"Name\":\"Pop Tarts\",\"Calories\":\"240\",\"Protein\":\"2\",\"Sodium\":\"2\"}" +
             "]," +
             "\"exercise_data\":[" +
             "{\"Name\":\"Running\",\"Calories\":\"300\"}," +
@@ -60,6 +61,10 @@ public class CustomJson {
             writeFile();
         }
         readFile();
+    }
+
+    public int getFoodLastDay() {
+        return data.get("food").size()-1;
     }
 
     public void saveFood(HashMap<String, String> item) {
@@ -93,9 +98,9 @@ public class CustomJson {
             data.get("food").ensureCapacity(day + 1);
             data.get("food").add(day, new HashMap<String, String>());
         }
-        HashMap<String, String> day_data = data.get("food").get(day);
+        Map<String, String> day_data = data.get("food").get(day);
         if (day_data.containsKey(food)) {
-            day_data.replace(food, amount + Double.parseDouble(day_data.get(food)));
+            day_data.replace(food, String.valueOf(Double.parseDouble(amount) + Double.parseDouble(day_data.get(food))));
         } else {
             day_data.put(food, amount);
         }
@@ -106,9 +111,9 @@ public class CustomJson {
             data.get("exercise").ensureCapacity(day + 1);
             data.get("exercise").add(day, new HashMap<String, String>());
         }
-        HashMap<String, String> day_data = data.get("exercise").get(day);
+        Map<String, String> day_data = data.get("exercise").get(day);
         if (day_data.containsKey(exercise)) {
-            day_data.replace(exercise, amount + Double.parseDouble(day_data.get(exercise)));
+            day_data.replace(exercise, String.valueOf(Double.parseDouble(amount) + Double.parseDouble(day_data.get(exercise))));
         } else {
             day_data.put(exercise, amount);
         }

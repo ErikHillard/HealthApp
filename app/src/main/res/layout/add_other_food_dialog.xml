@@ -161,9 +161,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView4"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="57dp"
-        android:text="Sodium (Optional):"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="58dp"
+        android:text="Sodium:"
         android:textAlignment="center"
         android:textSize="15dp" />
 
@@ -208,13 +208,13 @@
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="wrap_content"
+        android:layout_width="109dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView8"
         android:layout_alignParentStart="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="37dp"
-        android:text="Protein (Optional):"
+        android:text="Protein"
         android:textSize="15dp" />
 
     <TextView
