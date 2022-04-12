@@ -25,30 +25,30 @@ public class CustomJson {
     Gson gson;
     String json_string = "{" +
             "\"food\":[" +
-                "{\"Chicken Breast\":\"6\",\"Potato Chips\":\"6\",\"Pop Tarts\":\"1\"}," +
-                "{\"Chicken Breast\":\"6\",\"Potato Chips\":\"6\",\"Pop Tarts\":\"8\"}" +
+            "{\"Chicken Breast\":\"6\",\"Potato Chips\":\"6\",\"Pop Tarts\":\"1\"}," +
+            "{\"Chicken Breast\":\"6\",\"Potato Chips\":\"6\",\"Pop Tarts\":\"8\"}" +
             "]," +
             "\"exercise\":[" +
-                "{\"Running\":\"30\",\"Walking\":\"20\"}," +
-                "{\"Pushups\":\"30\", \"Running\":\"30\"}" +
+            "{\"Running\":\"30\",\"Walking\":\"20\"}," +
+            "{\"Pushups\":\"30\", \"Running\":\"30\"}" +
             "]," +
             "\"food_goals\":[{" +
-                "\"Calories\":\"2200\"," +
-                "\"Protein\":\"50\"" +
+            "\"Calories\":\"2200\"," +
+            "\"Protein\":\"50\"" +
             "}]," +
             "\"exercise_goals\":[{" +
-                "\"Calories\":\"200\"" +
+            "\"Calories\":\"200\"" +
             "}]," +
             "\"food_data\":[" +
-                "{\"Name\":\"Chicken Breast\",\"Calories\":\"130\",\"Protein\":\"20\"}," +
-                "{\"Name\":\"Potato Chips\",\"Calories\":\"150\",\"Protein\":\"2\"}," +
-                "{\"Name\":\"Pop Tarts\",\"Calories\":\"240\",\"Protein\":\"2\"}" +
+            "{\"Name\":\"Chicken Breast\",\"Calories\":\"130\",\"Protein\":\"20\"}," +
+            "{\"Name\":\"Potato Chips\",\"Calories\":\"150\",\"Protein\":\"2\"}," +
+            "{\"Name\":\"Pop Tarts\",\"Calories\":\"240\",\"Protein\":\"2\"}" +
             "]," +
             "\"exercise_data\":[" +
-                "{\"Name\":\"Running\",\"Calories\":\"300\"}," +
-                "{\"Name\":\"Walking\",\"Calories\":\"80\"}" +
+            "{\"Name\":\"Running\",\"Calories\":\"300\"}," +
+            "{\"Name\":\"Walking\",\"Calories\":\"80\"}" +
             "]" +
-        "}";
+            "}";
     HashMap<String, ArrayList<HashMap<String,String>>> data;
 
     public CustomJson(File file) {

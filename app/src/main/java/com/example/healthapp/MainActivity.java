@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.consumption:
                         getSupportActionBar().setTitle("Consumption");
-                        return getFragment(new ConsumptionFragment());
+                        return getFragment(new ConsumptionFragment(getFilesDir()));
 
                     case R.id.run:
                         getSupportActionBar().setTitle("Exercise");
-                        return getFragment(new ExerciseFragment());
+                        return getFragment(new ExerciseFragment(getFilesDir()));
 
                     case R.id.idea:
                         getSupportActionBar().setTitle("Ideas");
