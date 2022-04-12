@@ -31,8 +31,8 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26614583333333336" />
         <entry key="app/src/main/res/layout/fragment_consumption.xml" value="0.12891019172552975" />
         <entry key="app/src/main/res/layout/fragment_exercise.xml" value="0.26614583333333336" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.3229166666666667" />
-        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.13177083333333334" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.38446969696969696" />
+        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.4" />
       </map>
     </option>
   </component>
