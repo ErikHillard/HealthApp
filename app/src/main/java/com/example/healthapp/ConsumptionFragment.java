@@ -224,6 +224,8 @@ public class ConsumptionFragment extends Fragment {
                 cj.saveFood(newFood);
                 populateFoods();
 
+
+
                 dialog.dismiss();
             }
         });

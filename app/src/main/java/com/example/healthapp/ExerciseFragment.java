@@ -7,10 +7,12 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -30,7 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
-
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 
 public class ExerciseFragment extends Fragment{
@@ -44,10 +47,14 @@ public class ExerciseFragment extends Fragment{
     private Button addOtherExcerciseSave, addOtherExcerciseCancel;
     private EditText lengthWorkout, caloriesBurned;
     private AutoCompleteTextView excercise;
+    private Handler hdlr = new Handler();
+    private TextView progessUpdate;
 
     private ArrayList<HashMap<String, String>> excerciseData;
     private String[] Excercises;
     ArrayAdapter<String> adapter;
+    private ProgressBar pgsBar;
+    private int i;
 
 
     View view;
@@ -68,8 +75,6 @@ public class ExerciseFragment extends Fragment{
         String files = files_dir.toString();
         cj = new CustomJson(new File(files, "data.json"));
     }
-
-
 
     private void populateExcercise() {
         excerciseData = cj.getFoodData();
@@ -108,23 +113,31 @@ public class ExerciseFragment extends Fragment{
         dialog = dialogBuilder.create();
         dialog.show();
 
-        addOtherExcerciseSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // define save button.
-                HashMap<String, String> newExcercise = new HashMap<String, String>();
-                newExcercise.put("Name", excercise.toString());
-                newExcercise.put("Calories", caloriesBurned.toString());
 
-                cj.saveFood(newExcercise);
-                populateExcercise();
-
-                dialog.dismiss();
-
-
+        final String[] excerciseInput = {""};
+        String caloriesBurnt = "";
+        excercise.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {
+                excerciseInput[0] = (String)parent.getItemAtPosition(position);
             }
         });
 
+        addOtherExcerciseSave.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                HashMap<String, String> newExcercise = new HashMap<String, String>();
+                String caloriesBurnt = caloriesBurned.getText().toString();
+                newExcercise.put("Name", excerciseInput[0]);
+                newExcercise.put("Calories", caloriesBurnt);
+                cj.saveExercise(newExcercise);
+//                cj.addExerciseForDay(excerciseInput[0].toString(), caloriesBurnt.toString(), 1);
+                populateExcercise();
+                dialog.dismiss();
+            }
+
+
+        });
 
 
         addOtherExcerciseCancel.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +148,11 @@ public class ExerciseFragment extends Fragment{
         });
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        cj.writeFile();
+    }
 
 
     @Override
@@ -150,6 +168,37 @@ public class ExerciseFragment extends Fragment{
                 createNewAddOtherExcerciseDialog();
             }
         });
+
+
+        addOtherExcerciseButton = (Button) view.findViewById(R.id.addOtherExcerciseItem);
+        progessUpdate = (TextView) view.findViewById(R.id.progress_number);
+
+
+        pgsBar = (ProgressBar) view.findViewById(R.id.pBar);
+        i = pgsBar.getProgress();
+        new Thread(new Runnable() {
+            public void run() {
+                while (i < 250) {
+                    i += 1;
+                    // Update the progress bar and display the current value in text view
+                    hdlr.post(new Runnable() {
+                        public void run() {
+                            pgsBar.setProgress(i);
+                            progessUpdate.setText(i+"/"+ 250);
+
+                        }
+                    });
+                    try {
+                        // Sleep for 100 milliseconds to show the progress slowly.
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+        //get code for
+
 
         return view;
 
