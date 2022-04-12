@@ -250,8 +250,3 @@ public class CustomJson {
             data.get("exercise_goals").get(0).remove(attr);
         }
     }
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> 6d5999e4e240b8def85796c496468c9884cf7689
