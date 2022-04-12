@@ -25,10 +25,15 @@
         <entry key="..\:/Users/Erik/CMSC434/HealthApp/app/src/main/res/mipmap-anydpi-v26/ic_home.xml" value="0.1675" />
         <entry key="..\:/Users/Erik/CMSC434/HealthApp/app/src/main/res/mipmap-anydpi-v26/ic_home_round.xml" value="0.1675" />
         <entry key="..\:/Users/Erik/CMSC434/HealthApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1675" />
+<<<<<<< HEAD
         <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/add_existing_food_dialog.xml" value="0.3138093202223172" />
         <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/add_other_excerise.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/add_other_food_dialog.xml" value="0.5" />
         <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/fragment_consumption.xml" value="0.5" />
+=======
+        <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/add_other_food_dialog.xml" value="0.35733695652173914" />
+        <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/fragment_consumption.xml" value="0.25" />
+>>>>>>> 6d5999e4e240b8def85796c496468c9884cf7689
       </map>
     </option>
   </component>
