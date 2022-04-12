@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.idea:
                         getSupportActionBar().setTitle("Ideas");
-                        return getFragment(new IdeaFragment());
+                        return getFragment(new IdeaFragment(getFilesDir()));
                 }
 
                 return false;
