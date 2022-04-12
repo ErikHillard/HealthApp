@@ -131,6 +131,7 @@ public class ExerciseFragment extends Fragment{
                 newExcercise.put("Name", excerciseInput[0]);
                 newExcercise.put("Calories", caloriesBurnt);
                 cj.saveExercise(newExcercise);
+
 //                cj.addExerciseForDay(excerciseInput[0].toString(), caloriesBurnt.toString(), 1);
                 populateExcercise();
                 dialog.dismiss();
