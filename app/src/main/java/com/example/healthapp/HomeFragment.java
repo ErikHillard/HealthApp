@@ -5,12 +5,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.material.button.MaterialButton;
 
 import org.w3c.dom.Text;
 
@@ -39,11 +42,24 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         populateData();
-        getActivity().findViewById(R.id.addGoal).setOnClickListener(
+        MaterialButton clearGoalsButton = (MaterialButton) view.findViewById(R.id.clearGoals);
+
+        clearGoalsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cj.removeAllGoals();
+                populateData();
+            }
+        });
+
+        MaterialButton addGoalButton = (MaterialButton) view.findViewById(R.id.addGoal);
+        addGoalButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //TODO: Pull up dialog box with goals
+                        cj.addFoodGoal("Calories", "2000");
+                        cj.addFoodGoal("Protein", "200");
+                        cj.addExerciseGoal("Running", "100");
                         populateData();
                     }
                 }
@@ -51,11 +67,17 @@ public class HomeFragment extends Fragment {
     }
 
     private void populateData() {
-        cj = new CustomJson(new File(getContext().getFilesDir(), "data.json"));
+        if (cj == null) {
+            cj = new CustomJson(new File(getContext().getFilesDir(), "data.json"));
+        }
         ArrayList<GoalsView> arrayList = new ArrayList<GoalsView>();
         // add all the values from 1 to 15 to the arrayList
         // the items are of the type NumbersView
        if (cj != null) {
+           HashMap<String, String> user = cj.getUser();
+           TextView username = getActivity().findViewById(R.id.username);
+           username.setText("Hello " + user.get("Username") + "!");
+
             HashMap<String, String> foodGoals = cj.getFoodGoals();
             int currentDay = cj.getFoodLastDay();
             HashMap<String, String> foodOnLastDay = cj.getFoodDay(currentDay);
@@ -92,6 +114,32 @@ public class HomeFragment extends Fragment {
                     arrayList.add(new GoalsView("Sodium Eaten", Integer.toString(sodiumTotal), foodGoals.get(s)));
                 }
             }
+
+           HashMap<String, String> exerciseGoals = cj.getExerciseGoals();
+           HashMap<String, String> exerciseOnLastDay = cj.getExerciseDay(currentDay);
+           ArrayList<HashMap<String, String>> exerciseData = cj.getExerciseData();
+           String running = exerciseOnLastDay.get("Running");
+           if (running == null) {
+               running = "0";
+           }
+           String walking = exerciseOnLastDay.get("Walking");
+           if (walking == null) {
+               walking = "0";
+           }
+
+           for (String s : exerciseGoals.keySet()) {
+               if (s.equals("Calories")) {
+                   //TODO: Find out how many colories burned in a day use exercise data
+                   arrayList.add(new GoalsView("Calories Burned", "400", foodGoals.get(s)));
+               } else if (s.equals("Running")) {
+                   arrayList.add(new GoalsView("Miles Run", running, exerciseGoals.get(s)));
+               } else if (s.equals("Walking")) {
+                   arrayList.add(new GoalsView("Miles Walked", walking, exerciseGoals.get(s)));
+               } else if (s.equals("Traveled")) {
+                   arrayList.add(new GoalsView("Miles Traveled", Integer.toString(Integer.parseInt(running) + Integer.parseInt(walking)), exerciseGoals.get(s)));
+               }
+           }
+
         }
 
         // Now create the instance of the NumebrsViewAdapter and pass

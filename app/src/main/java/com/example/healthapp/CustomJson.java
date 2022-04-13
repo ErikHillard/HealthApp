@@ -56,7 +56,14 @@ public class CustomJson {
             "{\"Calories\":\"2000\"}," +
             "{\"Calories\":\"2100\"}," +
             "{\"Calories\":\"1800\"}" +
-            "]" +
+            "]," +
+            "\"user\":[{" +
+            "\"Username\":\"user\"," +
+            "\"Password\":\"pass\"," +
+            "\"Height\":\"190\"," +
+            "\"Weight\":\"200\"," +
+            "\"Age\":\"50\"" +
+            "}]" +
             "}";
 
     HashMap<String, ArrayList<HashMap<String, String>>> data;
@@ -65,7 +72,7 @@ public class CustomJson {
         this.file = file;
         gson = new Gson();
         data = new HashMap<>();
-        if (!file.exists() || true) {//change this to true to reset json file to default state (json_string)
+        if (!file.exists()) {//change this to true to reset json file to default state (json_string)
             writeFile();
         }
         readFile();
@@ -190,6 +197,9 @@ public class CustomJson {
         ja = json_data.get("calories_for_graph").getAsJsonArray();
         data.put("calories_for_graph", gson.fromJson(ja, ArrayList.class));
 
+        ja = json_data.get("user").getAsJsonArray();
+        data.put("user", gson.fromJson(ja, ArrayList.class));
+
     }
 
     public ArrayList<HashMap<String, String>> getGraphStats() {
@@ -225,6 +235,11 @@ public class CustomJson {
 
     public HashMap<String, String> getFoodGoals() {
         return new HashMap(data.get("food_goals").get(0));
+    }
+
+    public HashMap<String, String> getUser() {
+        HashMap <String, String> userData = new HashMap(data.get("user").get(0));
+        return new HashMap(data.get("user").get(0));
     }
 
     public HashMap<String, String> getExerciseGoals() {
@@ -280,5 +295,30 @@ public class CustomJson {
         if (data.get("exercise_goals").get(0).containsKey(attr)) {
             data.get("exercise_goals").get(0).remove(attr);
         }
+    }
+
+    public void removeAllGoals() {
+        data.get("exercise_goals").get(0).clear();
+        data.get("food_goals").get(0).clear();
+    }
+
+    public void replaceUser(String username, String password, String age, String height,
+                                String weight) {
+        Map <String, String> userData = data.get("user").get(0);
+        userData.replace("Username", username);
+        userData.replace("Password", password);
+        userData.replace("Age", age);
+        userData.replace("Height", height);
+        userData.replace("Weight", weight);
+    }
+
+    public String getUserName() {
+        Map<String, String> userData = data.get("user").get(0);
+        return userData.get("Username");
+    }
+
+    public String getUserPassword() {
+        Map<String, String> userData = data.get("user").get(0);
+        return userData.get("Password");
     }
 }

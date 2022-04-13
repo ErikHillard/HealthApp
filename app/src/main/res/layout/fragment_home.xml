@@ -6,7 +6,25 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/username"
+        android:textSize="25dp"
+        android:layout_margin="10dp"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/clearGoals"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:text="Clear Goals"
+        android:layout_margin="10dp"
+        />
     <ListView
+        android:layout_below="@id/username"
         android:id="@+id/listView"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"

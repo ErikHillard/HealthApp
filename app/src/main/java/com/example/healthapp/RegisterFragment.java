@@ -25,6 +25,7 @@ public class RegisterFragment extends Fragment {
     TextView password;
     TextView height;
     TextView weight;
+    TextView age;
     ArrayList <String> fields;
     ArrayList <Boolean> fieldExists;
 
@@ -49,12 +50,14 @@ public class RegisterFragment extends Fragment {
         password = view.findViewById(R.id.newPassword);
         height = view.findViewById(R.id.height);
         weight = view.findViewById(R.id.weight);
+        age = view.findViewById(R.id.age);
 
         fields = new ArrayList<>();
         fields.add("username");
         fields.add("password");
         fields.add("height");
         fields.add("weight");
+        fields.add("age");
         fieldExists = new ArrayList<>();
         for (int i = 0; i < fields.size(); i++) {
             fieldExists.add(true);
@@ -75,6 +78,9 @@ public class RegisterFragment extends Fragment {
                 }
                 if (weight.getText().toString().equals("")) {
                     fieldExists.set(3, false);
+                }
+                if (age.getText().toString().equals("")) {
+                    fieldExists.set(4, false);
                 }
 
                 int missing = 0;
@@ -122,10 +128,11 @@ public class RegisterFragment extends Fragment {
                     Fragment newFragment = new LoginFragment();
                     Bundle bundle = new Bundle();
 
-                    bundle.putString("username", username.getText().toString());
-                    bundle.putString("password", password.getText().toString());
-                    bundle.putString("height", height.getText().toString());
-                    bundle.putString("weight", weight.getText().toString());
+                    bundle.putString("Username", username.getText().toString());
+                    bundle.putString("Password", password.getText().toString());
+                    bundle.putString("Height", height.getText().toString());
+                    bundle.putString("Weight", weight.getText().toString());
+                    bundle.putString("Age", age.getText().toString());
                     bundle.putBoolean("registered", true);
                     newFragment.setArguments(bundle);
 

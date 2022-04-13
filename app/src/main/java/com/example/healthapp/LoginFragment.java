@@ -17,10 +17,15 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.io.File;
+
 public class LoginFragment extends Fragment {
 
     TextView username;
     TextView password;
+    String height;
+    String weight;
+    String age;
     Boolean registered;
     MaterialButton loginButton;
 
@@ -48,8 +53,11 @@ public class LoginFragment extends Fragment {
         registered = false;
         Bundle bundle = getArguments();
         if (bundle != null) {
-            String user = bundle.getString("username");
-            String pass = bundle.getString("password");
+            String user = bundle.getString("Username");
+            String pass = bundle.getString("Password");
+            String height = bundle.getString("Height");
+            String weight = bundle.getString("Weight");
+            String age = bundle.getString("Age");
 
             username.setText(user);
             password.setText(pass);
@@ -86,11 +94,18 @@ public class LoginFragment extends Fragment {
     }
 
     private void proccessLogin() {
+        CustomJson cj = new CustomJson(new File(getActivity().getFilesDir().toString(), "data.json"));
+        String storedUserName = cj.getUserName();
+        String storedPassword = cj.getUserPassword();
         if (registered ||
-                (username.getText().toString().equals("user")
-                && password.getText().toString().equals("pass"))){
+                (username.getText().toString().equals(storedUserName)
+                && password.getText().toString().equals(storedPassword))){
             setArguments(null);
             password.setText("");
+            if (registered) {
+                cj.replaceUser(username.getText().toString(), password.getText().toString(), age, height, weight);
+                registered = false;
+            }
             Intent switchActivity = new Intent(getActivity(), MainActivity.class);
             switchActivity.putExtra("Username", username.getText().toString());
             switchActivity.putExtra("NewUser", false);
