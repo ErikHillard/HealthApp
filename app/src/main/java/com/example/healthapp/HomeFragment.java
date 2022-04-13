@@ -181,4 +181,10 @@ public class HomeFragment extends Fragment {
         // set the numbersViewAdapter for ListView
         numbersListView.setAdapter(numbersArrayAdapter);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        cj.writeFile();
+    }
 }

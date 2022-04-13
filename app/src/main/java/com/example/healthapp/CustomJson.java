@@ -234,7 +234,7 @@ public class CustomJson {
 
     public void putHappy(String s) {
         Map<String, String> userData = data.get("happy").get(0);
-        userData.put(Integer.toString(userData.size()- 1), s);
+        userData.replace(Integer.toString(userData.size()- 2), s);
         userData.replace("submitted", "1");
     }
 
