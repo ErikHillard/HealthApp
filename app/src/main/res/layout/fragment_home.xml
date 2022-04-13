@@ -11,4 +11,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addGoal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:text="Add Goal"
+        android:layout_margin="10dp"
+        />
+
 </RelativeLayout>
