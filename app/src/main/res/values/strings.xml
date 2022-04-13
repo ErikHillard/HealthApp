@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Two Hats Guessing Game</string>
+    <string name="app_name">Health App</string>
     <string name="labelPlayer01">Player One\'s Value</string>
     <string name="labelPlayer02">Player Two\'s Value</string>
     <string name="color01">Red</string>
