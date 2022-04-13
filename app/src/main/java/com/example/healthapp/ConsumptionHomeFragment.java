@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.ListView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -202,13 +203,16 @@ public class ConsumptionHomeFragment extends Fragment {
         }
 
         LineDataSet set1 = new LineDataSet(values, "Calories");
+        set1.setDrawCircles(true);
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(set1);
         LineData data = new LineData(dataSets);
 
         caloriesOverTime.setData(data);
-
-
+        caloriesOverTime.getAxisLeft().setDrawGridLines(false);
+        caloriesOverTime.getXAxis().setDrawGridLines(false);
+        caloriesOverTime.getDescription().setEnabled(false);
+        caloriesOverTime.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
 
         dialogBuilder.setView(graphView);
         dialog = dialogBuilder.create();
