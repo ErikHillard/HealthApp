@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.slider.Slider;
 
 import org.w3c.dom.Text;
 
@@ -61,6 +62,34 @@ public class HomeFragment extends Fragment {
                         cj.addFoodGoal("Protein", "200");
                         cj.addExerciseGoal("Running", "100");
                         populateData();
+                    }
+                }
+        );
+
+
+        HashMap<String, String> happinessData = cj.getHappiness();
+        Boolean submitted = happinessData.get("submitted").equals("1");
+        MaterialButton submitSlide = (MaterialButton) view.findViewById(R.id.sliderSubmit);
+        Slider slider = view.findViewById(R.id.happySlider);
+        if (submitted) {
+            slider.setVisibility(view.GONE);
+            submitSlide.setText("Resubmit");
+        }
+
+        submitSlide.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (happinessData.get("submitted").equals("1")) {
+                            slider.setVisibility(view.VISIBLE);
+                            cj.removeHappy();
+                            submitSlide.setText("Submit");
+                        } else {
+                            String happiness = Integer.toString((int)slider.getValue());
+                            cj.putHappy(happiness);
+                            submitSlide.setText("Resubmit");
+                            slider.setVisibility(view.GONE);
+                        }
                     }
                 }
         );
