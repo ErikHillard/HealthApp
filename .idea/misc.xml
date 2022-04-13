@@ -29,8 +29,9 @@
         <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/add_existing_food_dialog.xml" value="0.3138093202223172" />
         <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/add_other_excerise.xml" value="0.5541666666666667" />
         <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/add_other_food_dialog.xml" value="0.5" />
+        <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/consumption_graph.xml" value="0.18951107396573338" />
         <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/fragment_consumption.xml" value="0.5" />
-        <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/fragment_consumption_home.xml" value="0.3399818676337262" />
+        <entry key="..\:/Users/tangm/cmsc434-spring2022/HealthApp/app/src/main/res/layout/fragment_consumption_home.xml" value="0.33" />
       </map>
     </option>
   </component>

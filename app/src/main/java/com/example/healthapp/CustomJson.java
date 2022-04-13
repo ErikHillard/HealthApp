@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CustomJson {
@@ -26,8 +27,8 @@ public class CustomJson {
     Gson gson;
     String json_string = "{" +
             "\"food\":[" +
-            "{\"Chicken Breast\":\"6\",\"Potato Chips\":\"6\",\"Pop Tarts\":\"1\"}," +
-            "{\"Potato Chips\":\"6\",\"Pop Tarts\":\"8\"}" +
+            "{\"Chicken Breast\":\"6\",\"Potato Chips\":\"3\",\"Pop Tarts\":\"1\"}," +
+            "{\"Potato Chips\":\"3\",\"Pop Tarts\":\"3\"}" +
             "]," +
             "\"exercise\":[" +
             "{\"Running\":\"30\",\"Walking\":\"20\"}," +
@@ -48,6 +49,13 @@ public class CustomJson {
             "\"exercise_data\":[" +
             "{\"Name\":\"Running\",\"Calories\":\"300\"}," +
             "{\"Name\":\"Walking\",\"Calories\":\"80\"}" +
+            "]," +
+            "\"calories_for_graph\":[" +
+            "{\"Calories\":\"1200\"}," +
+            "{\"Calories\":\"1400\"}," +
+            "{\"Calories\":\"2000\"}," +
+            "{\"Calories\":\"2100\"}," +
+            "{\"Calories\":\"1800\"}" +
             "]" +
             "}";
 
@@ -178,8 +186,19 @@ public class CustomJson {
 
         ja = json_data.get("exercise_data").getAsJsonArray();
         data.put("exercise_data", gson.fromJson(ja, ArrayList.class));
+
+        ja = json_data.get("calories_for_graph").getAsJsonArray();
+        data.put("calories_for_graph", gson.fromJson(ja, ArrayList.class));
+
     }
 
+    public ArrayList<HashMap<String, String>> getGraphStats() {
+        ArrayList<HashMap<String, String>> ret = new ArrayList(data.get("calories_for_graph").size());
+        for (int i = 0; i < data.get("calories_for_graph").size(); i ++) {
+            ret.add(new HashMap(data.get("calories_for_graph").get(i)));
+        }
+        return ret;
+    }
     public HashMap<String, String> getFoodDay(int day) {
         return new HashMap(data.get("food").get(day));
     }

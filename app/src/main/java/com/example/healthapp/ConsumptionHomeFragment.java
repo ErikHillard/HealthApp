@@ -19,10 +19,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ListView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.gson.internal.LinkedTreeMap;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.LinkedHashMap;
 
 public class ConsumptionHomeFragment extends Fragment {
 
@@ -34,7 +41,7 @@ public class ConsumptionHomeFragment extends Fragment {
     private AlertDialog dialog;
 
     // Consumption Home assets
-    private Button globalAddFoodButton;
+    private Button globalAddFoodButton, seeGraphButton;
     private ListView foodEaten;
     private ArrayAdapter<String> adapterFoodEaten;
     private String[] foodsEaten;
@@ -55,17 +62,17 @@ public class ConsumptionHomeFragment extends Fragment {
     private EditText numServings;
     private Button addExistingFoodSave, addExistingFoodCancel;
 
-    // Other Food Assets
+    // OtherFood Assets
     private EditText foodName, servings, calories, sodium, sugar, protein;
     private Button addOtherFoodSave, addOtherFoodCancel;
+
+    // Graph Assets
+    private LineChart caloriesOverTime;
 
     // Constructor
     public ConsumptionHomeFragment(File files_dir) {
         String files = files_dir.toString();
         cj = new CustomJson(new File(files, "data.json"));
-
-        // Need to parse json for foods eaten today (fuck the day)
-        // foodsEaten = "";
     }
 
     @Override
@@ -82,6 +89,12 @@ public class ConsumptionHomeFragment extends Fragment {
              public void onClick(View view) { createAddFoodDialog(); }
         });
 
+        seeGraphButton = (Button) view.findViewById(R.id.seeGraphButton);
+        seeGraphButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { createGraphDialog(); }
+        });
+
         foodEaten = (ListView) view.findViewById(R.id.foodEaten);
         populateFoodsEaten();
         adapterFoodEaten = new ArrayAdapter<String>(getActivity(), R.layout.activity_listview, foodsEaten);
@@ -96,6 +109,7 @@ public class ConsumptionHomeFragment extends Fragment {
         sodiumPBLabel = (TextView) view.findViewById(R.id.sodiumPBLabel);
 
         updateProgressBars();
+
         return view;
     }
 
@@ -116,9 +130,9 @@ public class ConsumptionHomeFragment extends Fragment {
                 HashMap<String, String> currFoodData = foodData.get(i);
                 if (currFoodData.get("Name").equals(food)) {
 
-                    caloriesTotal += Integer.parseInt(currFoodData.get("Calories"));
-                    proteinTotal += Integer.parseInt(currFoodData.get("Protein"));
-                    sodiumTotal += Integer.parseInt(currFoodData.get("Sodium"));
+                    caloriesTotal += Integer.parseInt(currFoodData.get("Calories")) * servings;
+                    proteinTotal += Integer.parseInt(currFoodData.get("Protein")) * servings;
+                    sodiumTotal += Integer.parseInt(currFoodData.get("Sodium")) * servings;
 
                     break;
                 }
@@ -138,6 +152,7 @@ public class ConsumptionHomeFragment extends Fragment {
         sodiumPB.setProgress(sodiumTotal);
         sodiumPBLabel.setText(sodiumTotal + "/2000");
     }
+
     private void populateFoodsEaten() {
         HashMap<String, String> foodOnLastDay = cj.getFoodDay(currentDay);
 
@@ -169,6 +184,36 @@ public class ConsumptionHomeFragment extends Fragment {
         }
     }
 
+    private void createGraphDialog() {
+        dialogBuilder = new AlertDialog.Builder(getActivity());
+        final View graphView = getLayoutInflater().inflate(R.layout.consumption_graph, null);
+
+        caloriesOverTime = (LineChart) graphView.findViewById(R.id.caloriesOverTimeChart);
+
+        // Get Entries
+        ArrayList<Entry> values = new ArrayList<>();
+        // This is hardcoded
+        ArrayList<HashMap<String, String>> graphCalories = cj.getGraphStats();
+
+        for (int i = 0; i < graphCalories.size(); i ++) {
+            HashMap<String, String> curr = graphCalories.get(i);
+
+            values.add(new Entry(i+1, Integer.parseInt(curr.get("Calories"))));
+        }
+
+        LineDataSet set1 = new LineDataSet(values, "Calories");
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
+        LineData data = new LineData(dataSets);
+
+        caloriesOverTime.setData(data);
+
+
+
+        dialogBuilder.setView(graphView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+    }
     private void createAddFoodDialog() {
         dialogBuilder = new AlertDialog.Builder(getActivity());
         final View addFoodView = getLayoutInflater().inflate(R.layout.fragment_consumption, null);
@@ -255,8 +300,10 @@ public class ConsumptionHomeFragment extends Fragment {
                 String servingsInput = numServings.getText().toString();
 
                 cj.addFoodForDay(foodNameInput, servingsInput, currentDay);
+
                 populateFoodsEaten();
-                Log.e("mytag", "added food on existing");
+                updateProgressBars();
+
                 dialog.dismiss();
             }
         });
@@ -342,6 +389,8 @@ public class ConsumptionHomeFragment extends Fragment {
 
                 populateFoods();  // For Autocompletetextview to remember
                 populateFoodsEaten(); // For listview of eaten items
+                updateProgressBars();
+
                 dialog.dismiss();
             }
         });
