@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
 import android.util.Log;
@@ -17,6 +19,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -28,12 +33,21 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
 import android.widget.ProgressBar;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+
+//import com.jjoe64.graphview.GraphView;
+//import com.jjoe64.graphview.series.DataPoint;
+//import com.jjoe64.graphview.series.LineGraphSeries;
+
+
 
 
 public class ExerciseFragment extends Fragment{
@@ -43,7 +57,7 @@ public class ExerciseFragment extends Fragment{
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-    private EditText excerciseName, calories, length;
+    private EditText excerciseName, calories, length, days;
     private Button addOtherExcerciseSave, addOtherExcerciseCancel;
     private EditText lengthWorkout, caloriesBurned;
     private AutoCompleteTextView excercise;
@@ -55,19 +69,44 @@ public class ExerciseFragment extends Fragment{
     ArrayAdapter<String> adapter;
     private ProgressBar pgsBar;
     private int i;
-
+    private String excerciseInput;
+//    private GraphView graphView;
 
     View view;
 
     CustomJson cj;
 
     public String[] workouts = {
-            "Running",
-            "Weight Lifting",
-            "Walk",
+            "Badminton",
+            "Baseball",
+            "BasketBall",
+            "Bicycling",
+            "Boxing",
+            "Burpees",
             "Climbing",
+            "Crunches",
+            "Football",
+            "Golf",
+            "Gymnastics",
             "Hiking",
-            "Jogging"
+            "Hockey",
+            "Jogging",
+            "Jump Rope",
+            "Jumping Jacks",
+            "Lunges",
+            "Mountain Climbers",
+            "Mountain Climbers",
+            "Planks",
+            "Push ups",
+            "Soccer",
+            "Squats",
+            "Stair Climbs",
+            "Swimming",
+            "Tennis",
+            "Volleyball",
+            "Walk",
+            "Weight Lifting",
+            "Running",
     };
 
     public ExerciseFragment(File files_dir) {
@@ -77,7 +116,7 @@ public class ExerciseFragment extends Fragment{
     }
 
     private void populateExcercise() {
-        excerciseData = cj.getFoodData();
+        excerciseData = cj.getExerciseData();
         Excercises = new String[excerciseData.size()];
 
         for (int i = 0; i < excerciseData.size(); i ++) {
@@ -105,6 +144,10 @@ public class ExerciseFragment extends Fragment{
         excercise.setTextColor(Color.RED);
 
         caloriesBurned = (EditText) addOtherExcerciseView.findViewById(R.id.caloriesBurnt);
+        lengthWorkout = (EditText) addOtherExcerciseView.findViewById(R.id.workoutType);
+        days = (EditText) addOtherExcerciseView.findViewById(R.id.Days);
+
+
 
         addOtherExcerciseSave = (Button) addOtherExcerciseView.findViewById(R.id.addOtherExcerciseItemSave);
         addOtherExcerciseCancel = (Button) addOtherExcerciseView.findViewById(R.id.addOtherExcerciseItemCancel);
@@ -114,11 +157,11 @@ public class ExerciseFragment extends Fragment{
         dialog.show();
 
 
-        final String[] excerciseInput = {""};
+
         String caloriesBurnt = "";
         excercise.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {
-                excerciseInput[0] = (String)parent.getItemAtPosition(position);
+                excerciseInput = (String)parent.getItemAtPosition(position);
             }
         });
 
@@ -128,10 +171,42 @@ public class ExerciseFragment extends Fragment{
             public void onClick(View view) {
                 HashMap<String, String> newExcercise = new HashMap<String, String>();
                 String caloriesBurnt = caloriesBurned.getText().toString();
-                newExcercise.put("Name", excerciseInput[0]);
+                Integer workout_amount = Integer.parseInt(lengthWorkout.getText().toString());
+                Integer day = Integer.parseInt(days.getText().toString());
+                newExcercise.put("Name", excerciseInput);
+
+                if(caloriesBurnt  == "") {
+                    if (excerciseInput == "Running") {
+                        caloriesBurnt = String.valueOf(120 * workout_amount);
+                    }
+                    if (excerciseInput == "Jogging") {
+                        caloriesBurnt = String.valueOf(80 * workout_amount);
+                    }
+                    if (excerciseInput == "Walking") {
+                        caloriesBurnt = String.valueOf(80 * workout_amount);
+                    }
+                    if (excerciseInput == "Push Ups") {
+                        caloriesBurnt = String.valueOf(0.4 * workout_amount);
+                    }
+                    if (excerciseInput == "Bicycling") {
+                        caloriesBurnt = String.valueOf(30 * workout_amount);
+                    }
+
+
+
+
+
+                }
+
                 newExcercise.put("Calories", caloriesBurnt);
+
+                //caculate calories
+
+
                 cj.saveExercise(newExcercise);
-//                cj.addExerciseForDay(excerciseInput[0].toString(), caloriesBurnt.toString(), 1);
+
+//                cj.addExerciseForDay(excerciseInput, caloriesBurnt, 1);
+
                 populateExcercise();
                 dialog.dismiss();
             }
@@ -159,7 +234,6 @@ public class ExerciseFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         view = inflater.inflate(R.layout.fragment_exercise, container, false);
         addOtherExcerciseButton = (Button) view.findViewById(R.id.addOtherExcerciseItem);
         addOtherExcerciseButton.setOnClickListener(new View.OnClickListener() {
@@ -169,22 +243,26 @@ public class ExerciseFragment extends Fragment{
             }
         });
 
-
         addOtherExcerciseButton = (Button) view.findViewById(R.id.addOtherExcerciseItem);
         progessUpdate = (TextView) view.findViewById(R.id.progress_number);
 
-
         pgsBar = (ProgressBar) view.findViewById(R.id.pBar);
         i = pgsBar.getProgress();
+
+
         new Thread(new Runnable() {
             public void run() {
                 while (i < 250) {
                     i += 1;
+
+
                     // Update the progress bar and display the current value in text view
                     hdlr.post(new Runnable() {
                         public void run() {
                             pgsBar.setProgress(i);
+                            //get the actual values here
                             progessUpdate.setText(i+"/"+ 250);
+                            init();
 
                         }
                     });
@@ -197,10 +275,57 @@ public class ExerciseFragment extends Fragment{
                 }
             }
         }).start();
+
         //get code for
+//        GraphView graph = (GraphView) view.findViewById(R.id.graph);
+//        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+//                new DataPoint(0, 1),
+//                new DataPoint(1, 5),
+//                new DataPoint(2, 3),
+//                new DataPoint(3, 2),
+//                new DataPoint(4, 6)
+//        });
+//        graph.addSeries(series);
+
 
 
         return view;
 
     }
+
+    //Graph data
+    public void init() {
+
+
+        TextView textView = (TextView) view.findViewById(R.id.test_text);
+        ArrayList<HashMap<String,String>>  allExcercise = cj.getExerciseData();
+        String listOfExcercise = "";
+        String calories_burned = "";
+        for (int i=0;i< allExcercise.size();i++){
+            ArrayList<String> string_elements = new ArrayList<>();
+            HashMap<String,String> temp = allExcercise.get(i);
+            for(String k: temp.keySet()){
+                string_elements.add(k);
+                string_elements.add(temp.get(k));
+                listOfExcercise += k + " " + temp.get(k) + " ";
+            }
+            listOfExcercise += "\n";
+
+            //parse the string_elements for the important parts
+        }
+
+        textView.setText(listOfExcercise);
+
+
+
+
+
+
+
+
+    }
+
+
+
+
 }

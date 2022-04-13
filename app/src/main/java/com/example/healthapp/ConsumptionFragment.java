@@ -157,7 +157,6 @@ public class ConsumptionFragment extends Fragment {
             }
         });
 
-
         dialogBuilder.setView(addExistingFoodView);
         dialog = dialogBuilder.create();
         dialog.show();
@@ -223,8 +222,6 @@ public class ConsumptionFragment extends Fragment {
 
                 cj.saveFood(newFood);
                 populateFoods();
-
-
 
                 dialog.dismiss();
             }
