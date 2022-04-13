@@ -104,6 +104,7 @@ public class LoginFragment extends Fragment {
             password.setText("");
             if (registered) {
                 cj.replaceUser(username.getText().toString(), password.getText().toString(), age, height, weight);
+                cj.removeAllData();
                 registered = false;
             }
             Intent switchActivity = new Intent(getActivity(), MainActivity.class);
