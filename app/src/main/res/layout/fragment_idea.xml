@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginBottom="30dp"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/ideaFragment"
+        android:layout_weight="0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -126,5 +128,17 @@
             android:textSize="18sp" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/moodRecc"
+        android:layout_weight="0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="14dp"
+        android:text="Yoga is a great way to relieve stress and brighten your mood!"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"/>
 
 </LinearLayout>

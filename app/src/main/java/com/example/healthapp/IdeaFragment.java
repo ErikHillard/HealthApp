@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class IdeaFragment extends Fragment {
@@ -138,6 +139,17 @@ public class IdeaFragment extends Fragment {
         }
         for (TextView tv : exer_tvs) {
             tv.setVisibility(View.GONE);
+        }
+
+        TextView yoga = vw.findViewById(R.id.moodRecc);
+        Map<String,String> happiness = cj.getHappiness();
+        double mood_sum = 0;
+        for (int i = 0; i < happiness.size()-1; i++) {
+            mood_sum += Integer.valueOf(happiness.get(Integer.toString(i)));
+        }
+        mood_sum /= happiness.size()-1;
+        if (mood_sum > 2) {
+            yoga.setVisibility(View.GONE);
         }
 
         return vw;
