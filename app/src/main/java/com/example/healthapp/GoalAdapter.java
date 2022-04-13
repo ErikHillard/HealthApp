@@ -10,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
-public class NumbersViewAdapter extends ArrayAdapter<NumbersView> {
+public class GoalAdapter extends ArrayAdapter<GoalsView> {
 
     // invoke the suitable constructor of the ArrayAdapter class
-    public NumbersViewAdapter(@NonNull Context context, ArrayList<NumbersView> arrayList) {
+    public GoalAdapter(@NonNull Context context, ArrayList<GoalsView> arrayList) {
 
         // pass the context and arrayList for the super
         // constructor of the ArrayAdapter class
@@ -33,7 +33,7 @@ public class NumbersViewAdapter extends ArrayAdapter<NumbersView> {
         }
 
         // get the position of the view from the ArrayAdapter
-        NumbersView currentNumberPosition = getItem(position);
+        GoalsView currentNumberPosition = getItem(position);
 
         // then according to the position of the view assign the desired image for the same
         ImageView numbersImage = currentItemView.findViewById(R.id.imageView);

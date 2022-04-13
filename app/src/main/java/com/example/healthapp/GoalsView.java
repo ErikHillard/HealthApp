@@ -1,6 +1,6 @@
 package com.example.healthapp;
 
-public class NumbersView {
+public class GoalsView {
 
     // the resource ID for the imageView
     private int ivNumbersImageId;
@@ -12,7 +12,7 @@ public class NumbersView {
     private String mNumbersInText;
 
     // create constructor to set the values for all the parameters of the each single view
-    public NumbersView(int NumbersImageId, String NumbersInDigit, String NumbersInText) {
+    public GoalsView(int NumbersImageId, String NumbersInDigit, String NumbersInText) {
         ivNumbersImageId = NumbersImageId;
         mNumberInDigit = NumbersInDigit;
         mNumbersInText = NumbersInText;
