@@ -63,6 +63,13 @@ public class CustomJson {
             "\"Height\":\"190\"," +
             "\"Weight\":\"200\"," +
             "\"Age\":\"50\"" +
+            "}]," +
+            "\"happy\":[{" +
+            "\"0\":\"2\"," +
+            "\"1\":\"1\"," +
+            "\"2\":\"2\"," +
+            "\"3\":\"1\"," +
+            "\"4\":\"2\"" +
             "}]" +
             "}";
 
@@ -267,6 +274,7 @@ public class CustomJson {
         data.replace("exercise",new ArrayList<>());
         data.replace("food_goals",new ArrayList<>());
         data.replace("exercise_goals",new ArrayList<>());
+        data.replace("happy", new ArrayList<>());
     }
 
     public void removeFoodFromDay(String food, int day) {
