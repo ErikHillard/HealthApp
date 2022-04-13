@@ -8,9 +8,11 @@
 
     <ListView
         android:id="@+id/listView"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp" />
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"

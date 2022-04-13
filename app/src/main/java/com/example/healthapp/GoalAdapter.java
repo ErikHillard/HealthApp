@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,17 +37,21 @@ public class GoalAdapter extends ArrayAdapter<GoalsView> {
         GoalsView currentNumberPosition = getItem(position);
 
         // then according to the position of the view assign the desired image for the same
-        ImageView numbersImage = currentItemView.findViewById(R.id.imageView);
+        TextView goalLabel = currentItemView.findViewById(R.id.goalLabel);
         assert currentNumberPosition != null;
-        numbersImage.setImageResource(currentNumberPosition.getNumbersImageId());
+        String progress = currentNumberPosition.getProgress();
+        String total = currentNumberPosition.getTotalGoal();
+//        numbersImage.setImageResource(currentNumberPosition.getNumbersImageId());
+        goalLabel.setText(currentNumberPosition.getGoalLabel());
 
         // then according to the position of the view assign the desired TextView 1 for the same
-        TextView textView1 = currentItemView.findViewById(R.id.textView1);
-        textView1.setText(currentNumberPosition.getNumberInDigit());
+        TextView goalOutOf = currentItemView.findViewById(R.id.goalOutOf);
+        goalOutOf.setText(progress + "/" + total);
 
         // then according to the position of the view assign the desired TextView 2 for the same
-        TextView textView2 = currentItemView.findViewById(R.id.textView2);
-        textView2.setText(currentNumberPosition.getNumbersInText());
+        ProgressBar progressBar = currentItemView.findViewById(R.id.goalProgressBar);
+        progressBar.setMax(Integer.parseInt(total));
+        progressBar.setProgress(Integer.parseInt(progress));
 
         // then return the recyclable view
         return currentItemView;
