@@ -223,7 +223,7 @@ public class ConsumptionHomeFragment extends Fragment {
         caloriesOverTime.getAxisLeft().setDrawGridLines(false);
         caloriesOverTime.getXAxis().setDrawGridLines(false);
         caloriesOverTime.getDescription().setEnabled(false);
-        caloriesOverTime.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        caloriesOverTime.getXAxis().setDrawLabels(false);
 
         dialogBuilder.setView(graphView);
         dialog = dialogBuilder.create();
