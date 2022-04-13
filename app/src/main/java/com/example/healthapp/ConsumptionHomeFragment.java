@@ -1,6 +1,7 @@
 package com.example.healthapp;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.graphics.Color;
 import androidx.fragment.app.Fragment;
@@ -20,10 +21,14 @@ import android.widget.TextView;
 import android.widget.ListView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -69,6 +74,7 @@ public class ConsumptionHomeFragment extends Fragment {
 
     // Graph Assets
     private LineChart caloriesOverTime;
+    private Button graphBackButton;
 
     // Constructor
     public ConsumptionHomeFragment(File files_dir) {
@@ -189,6 +195,11 @@ public class ConsumptionHomeFragment extends Fragment {
         dialogBuilder = new AlertDialog.Builder(getActivity());
         final View graphView = getLayoutInflater().inflate(R.layout.consumption_graph, null);
 
+        graphBackButton = (Button) graphView.findViewById(R.id.graphBackButton);
+        graphBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { dialog.dismiss(); }
+        });
         caloriesOverTime = (LineChart) graphView.findViewById(R.id.caloriesOverTimeChart);
 
         // Get Entries
@@ -257,7 +268,6 @@ public class ConsumptionHomeFragment extends Fragment {
             }
         });
 
-
         dialogBuilder.setView(addFoodView);
         dialog = dialogBuilder.create();
         dialog.show();
@@ -303,6 +313,10 @@ public class ConsumptionHomeFragment extends Fragment {
                 String foodNameInput = selectedFood;
                 String servingsInput = numServings.getText().toString();
 
+                if (servingsInput.equals("")) {
+                    return;
+                }
+
                 cj.addFoodForDay(foodNameInput, servingsInput, currentDay);
 
                 populateFoodsEaten();
@@ -343,17 +357,23 @@ public class ConsumptionHomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Might want to make it so that if no food name or calories we cant accept
+                if (foodName.getText().toString().equals("")
+                || calories.getText().toString().equals("")
+                || servings.getText().toString().equals("")
+                || sodium.getText().toString().equals("")
+                || protein.getText().toString().equals("")){
+                    AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
+                    adb.setMessage("Please fill out all non-optional fields.");
+                    adb.setCancelable(true);
+                    return;
+                }
+
                 String foodNameText = foodName.getText().toString();
                 int caloriesNum = Integer.parseInt(calories.getText().toString());
                 int servingsNum = Integer.parseInt(servings.getText().toString());
+                int sodiumNum = Integer.parseInt(sodium.getText().toString());
+                int proteinNum = Integer.parseInt(protein.getText().toString());
 
-                int sodiumNum;
-                if (sodium.getText().toString().trim().length() == 0) {
-                    sodiumNum = -1;
-                }
-                else {
-                    sodiumNum = Integer.parseInt(sodium.getText().toString());
-                }
 
                 int sugarNum;
                 if (sugar.getText().toString().trim().length() == 0) {
@@ -361,14 +381,6 @@ public class ConsumptionHomeFragment extends Fragment {
                 }
                 else {
                     sugarNum = Integer.parseInt(sugar.getText().toString());
-                }
-
-                int proteinNum;
-                if (protein.getText().toString().trim().length() == 0) {
-                    proteinNum = -1;
-                }
-                else {
-                    proteinNum = Integer.parseInt(protein.getText().toString());
                 }
 
 //                Log.d("myTag", foodNameText);
