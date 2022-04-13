@@ -15,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ListView;
 
@@ -38,6 +39,8 @@ public class ConsumptionHomeFragment extends Fragment {
     private ArrayAdapter<String> adapterFoodEaten;
     private String[] foodsEaten;
     private int currentDay;
+    private ProgressBar caloriePB, proteinPB, sodiumPB;
+    private TextView caloriePBLabel, proteinPBLabel, sodiumPBLabel;
 
     // AddFood Home assets
     private AutoCompleteTextView addExistingFoodAutoComplete;
@@ -71,7 +74,7 @@ public class ConsumptionHomeFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_consumption_home, container, false);
 
-        currentDay = cj.getFoodLastDay();
+        currentDay = cj.getFoodLastDay(); // spaghetti since we are prepopulating
 
         globalAddFoodButton = (Button) view.findViewById(R.id.addFoodButton);
         globalAddFoodButton.setOnClickListener(new View.OnClickListener() {
@@ -84,15 +87,57 @@ public class ConsumptionHomeFragment extends Fragment {
         adapterFoodEaten = new ArrayAdapter<String>(getActivity(), R.layout.activity_listview, foodsEaten);
         foodEaten.setAdapter(adapterFoodEaten);
 
-        currentDay = cj.getFoodLastDay();
+        // Progress Bar
+        caloriePB = (ProgressBar) view.findViewById(R.id.calorieProgressBar);
+        caloriePBLabel = (TextView) view.findViewById(R.id.caloriePBLabel);
+        proteinPB = (ProgressBar) view.findViewById(R.id.proteinProgressBar);
+        proteinPBLabel = (TextView) view.findViewById(R.id.proteinPBLabel);
+        sodiumPB = (ProgressBar) view.findViewById(R.id.sodiumProgressBar);
+        sodiumPBLabel = (TextView) view.findViewById(R.id.sodiumPBLabel);
 
-        Log.e("mytag", "current day is " + currentDay);  // Spaghetti
-
+        updateProgressBars();
         return view;
     }
 
-    // This needs to pull from data
-    // add food needs to update or just call this method again
+    private void updateProgressBars() {
+        HashMap<String, String> foodOnLastDay = cj.getFoodDay(currentDay);
+        foodData = cj.getFoodData();
+
+        int caloriesTotal = 0;
+        int proteinTotal = 0;
+        int sodiumTotal = 0;
+
+        // Dear programming gods this is O(n^2) and I know it's horrible but i promise
+        // it's not my fault. So please forgive me just this once :((
+        for (String food: foodOnLastDay.keySet()) {
+            int servings = Integer.parseInt(foodOnLastDay.get(food));
+
+            for (int i = 0; i < foodData.size(); i ++) {
+                HashMap<String, String> currFoodData = foodData.get(i);
+                if (currFoodData.get("Name").equals(food)) {
+
+                    caloriesTotal += Integer.parseInt(currFoodData.get("Calories"));
+                    proteinTotal += Integer.parseInt(currFoodData.get("Protein"));
+                    sodiumTotal += Integer.parseInt(currFoodData.get("Sodium"));
+
+                    break;
+                }
+            }
+        }
+
+        // TODO: POPULATE WITH VALUES FROM GOALS. THESE ARE JUST DUMMY (2000)
+        caloriePB.setMax(2000);
+        caloriePB.setProgress(caloriesTotal);
+        caloriePBLabel.setText(caloriesTotal + "/2000");
+
+        proteinPB.setMax(2000);
+        proteinPB.setProgress(proteinTotal);
+        proteinPBLabel.setText(proteinTotal + "/2000");
+
+        sodiumPB.setMax(2000);
+        sodiumPB.setProgress(sodiumTotal);
+        sodiumPBLabel.setText(sodiumTotal + "/2000");
+    }
     private void populateFoodsEaten() {
         HashMap<String, String> foodOnLastDay = cj.getFoodDay(currentDay);
 
@@ -275,12 +320,12 @@ public class ConsumptionHomeFragment extends Fragment {
                     proteinNum = Integer.parseInt(protein.getText().toString());
                 }
 
-                Log.d("myTag", foodNameText);
-                Log.d("myTag", "servings " + servingsNum);
-                Log.d("myTag", "calories:" + caloriesNum);
-                Log.d("myTag", "sodium:" + sodiumNum);
-                Log.d("myTag", "sugar:" + sugarNum);
-                Log.d("myTag", "protein:" + proteinNum);
+//                Log.d("myTag", foodNameText);
+//                Log.d("myTag", "servings " + servingsNum);
+//                Log.d("myTag", "calories:" + caloriesNum);
+//                Log.d("myTag", "sodium:" + sodiumNum);
+//                Log.d("myTag", "sugar:" + sugarNum);
+//                Log.d("myTag", "protein:" + proteinNum);
 
                 HashMap<String, String> newFood = new HashMap<String, String>();
                 newFood.put("Name", foodNameText);
