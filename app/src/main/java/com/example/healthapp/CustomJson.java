@@ -223,6 +223,13 @@ public class CustomJson {
         return ret;
     }
 
+    public void removeAllData() {
+        data.replace("food",new ArrayList<>());
+        data.replace("exercise",new ArrayList<>());
+        data.replace("food_goals",new ArrayList<>());
+        data.replace("exercise_goals",new ArrayList<>());
+    }
+
     public void removeFoodFromDay(String food, int day) {
         if (day >= 0 && day < data.getOrDefault("food", new ArrayList()).size()) {
             if (data.get("food").get(day).containsKey(food)) {

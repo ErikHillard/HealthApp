@@ -28,16 +28,6 @@ public class LoginFragment extends Fragment {
         // Required empty public constructor
     }
 
-//    public static LoginFragment newInstance(String param1, String param2) {
-//        LoginFragment fragment = new LoginFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

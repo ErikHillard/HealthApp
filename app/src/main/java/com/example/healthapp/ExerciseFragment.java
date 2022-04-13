@@ -57,7 +57,7 @@ public class ExerciseFragment extends Fragment{
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-    private EditText excerciseName, calories, length;
+    private EditText excerciseName, calories, length, days;
     private Button addOtherExcerciseSave, addOtherExcerciseCancel;
     private EditText lengthWorkout, caloriesBurned;
     private AutoCompleteTextView excercise;
@@ -77,12 +77,36 @@ public class ExerciseFragment extends Fragment{
     CustomJson cj;
 
     public String[] workouts = {
-            "Running",
-            "Weight Lifting",
-            "Walk",
+            "Badminton",
+            "Baseball",
+            "BasketBall",
+            "Bicycling",
+            "Boxing",
+            "Burpees",
             "Climbing",
+            "Crunches",
+            "Football",
+            "Golf",
+            "Gymnastics",
             "Hiking",
-            "Jogging"
+            "Hockey",
+            "Jogging",
+            "Jump Rope",
+            "Jumping Jacks",
+            "Lunges",
+            "Mountain Climbers",
+            "Mountain Climbers",
+            "Planks",
+            "Push ups",
+            "Soccer",
+            "Squats",
+            "Stair Climbs",
+            "Swimming",
+            "Tennis",
+            "Volleyball",
+            "Walk",
+            "Weight Lifting",
+            "Running",
     };
 
     public ExerciseFragment(File files_dir) {
@@ -120,6 +144,10 @@ public class ExerciseFragment extends Fragment{
         excercise.setTextColor(Color.RED);
 
         caloriesBurned = (EditText) addOtherExcerciseView.findViewById(R.id.caloriesBurnt);
+        lengthWorkout = (EditText) addOtherExcerciseView.findViewById(R.id.workoutType);
+        days = (EditText) addOtherExcerciseView.findViewById(R.id.Days);
+
+
 
         addOtherExcerciseSave = (Button) addOtherExcerciseView.findViewById(R.id.addOtherExcerciseItemSave);
         addOtherExcerciseCancel = (Button) addOtherExcerciseView.findViewById(R.id.addOtherExcerciseItemCancel);
@@ -127,6 +155,7 @@ public class ExerciseFragment extends Fragment{
         dialogBuilder.setView(addOtherExcerciseView);
         dialog = dialogBuilder.create();
         dialog.show();
+
 
 
         String caloriesBurnt = "";
@@ -142,8 +171,38 @@ public class ExerciseFragment extends Fragment{
             public void onClick(View view) {
                 HashMap<String, String> newExcercise = new HashMap<String, String>();
                 String caloriesBurnt = caloriesBurned.getText().toString();
+                Integer workout_amount = Integer.parseInt(lengthWorkout.getText().toString());
+                Integer day = Integer.parseInt(days.getText().toString());
                 newExcercise.put("Name", excerciseInput);
+
+                if(caloriesBurnt  == "") {
+                    if (excerciseInput == "Running") {
+                        caloriesBurnt = String.valueOf(120 * workout_amount);
+                    }
+                    if (excerciseInput == "Jogging") {
+                        caloriesBurnt = String.valueOf(80 * workout_amount);
+                    }
+                    if (excerciseInput == "Walking") {
+                        caloriesBurnt = String.valueOf(80 * workout_amount);
+                    }
+                    if (excerciseInput == "Push Ups") {
+                        caloriesBurnt = String.valueOf(0.4 * workout_amount);
+                    }
+                    if (excerciseInput == "Bicycling") {
+                        caloriesBurnt = String.valueOf(30 * workout_amount);
+                    }
+
+
+
+
+                    
+                }
+
                 newExcercise.put("Calories", caloriesBurnt);
+
+                //caculate calories
+
+
                 cj.saveExercise(newExcercise);
 
 //                cj.addExerciseForDay(excerciseInput, caloriesBurnt, 1);
@@ -189,6 +248,8 @@ public class ExerciseFragment extends Fragment{
 
         pgsBar = (ProgressBar) view.findViewById(R.id.pBar);
         i = pgsBar.getProgress();
+
+
         new Thread(new Runnable() {
             public void run() {
                 while (i < 250) {
@@ -234,12 +295,7 @@ public class ExerciseFragment extends Fragment{
 
     //Graph data
     public void init() {
-//        TableLayout stk = (TableLayout) view.findViewById(R.id.table_main);
-//        TableRow tbrow0 = new TableRow(this.getContext());
-//        TextView tv0 = new TextView(this.getContext());
-//        tv0.setText(" Sl.No ");
-//        tv0.setTextColor(Color.WHITE);
-//        tbrow0.addView(tv0);
+
 
         TextView textView = (TextView) view.findViewById(R.id.test_text);
         ArrayList<HashMap<String,String>>  allExcercise = cj.getExerciseData();
