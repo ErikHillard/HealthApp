@@ -195,7 +195,7 @@ public class ExerciseFragment extends Fragment{
 
 
 
-                    
+
                 }
 
                 newExcercise.put("Calories", caloriesBurnt);
