@@ -38,11 +38,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 //import com.jjoe64.graphview.GraphView;
 //import com.jjoe64.graphview.series.DataPoint;
 //import com.jjoe64.graphview.series.LineGraphSeries;
@@ -58,11 +64,13 @@ public class ExerciseFragment extends Fragment{
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private EditText excerciseName, calories, length, days;
-    private Button addOtherExcerciseSave, addOtherExcerciseCancel;
+    private Button addOtherExcerciseSave, addOtherExcerciseCancel, seeGraphButton, excerciseExplainButton;
     private EditText lengthWorkout, caloriesBurned;
     private AutoCompleteTextView excercise;
     private Handler hdlr = new Handler();
-    private TextView progessUpdate;
+    private TextView progessUpdate, explainExcercise;
+    private String[] ExcercisesDoneArray;
+
 
     private ArrayList<HashMap<String, String>> excerciseData;
     private String[] Excercises;
@@ -71,6 +79,10 @@ public class ExerciseFragment extends Fragment{
     private int i;
     private String excerciseInput;
 //    private GraphView graphView;
+
+    private LineChart excerciseChart;
+    private ListView excerciseDone;
+    private ArrayAdapter<String> adapterExcerciseDone;
 
     View view;
 
@@ -115,21 +127,6 @@ public class ExerciseFragment extends Fragment{
         cj = new CustomJson(new File(files, "data.json"));
     }
 
-    private void populateExcercise() {
-        excerciseData = cj.getExerciseData();
-        Excercises = new String[excerciseData.size()];
-
-        for (int i = 0; i < excerciseData.size(); i ++) {
-            Excercises[i] = excerciseData.get(i).get("Name");
-            Log.e("myTag", Excercises[i]);
-        }
-
-        if (adapter != null) {
-            adapter = new ArrayAdapter<String>
-                    (getActivity(), android.R.layout.select_dialog_item, Excercises );
-            excercise.setAdapter(adapter);
-        }
-    }
 
     public void createNewAddOtherExcerciseDialog() {
         dialogBuilder = new AlertDialog.Builder(getActivity());
@@ -145,7 +142,7 @@ public class ExerciseFragment extends Fragment{
 
         caloriesBurned = (EditText) addOtherExcerciseView.findViewById(R.id.caloriesBurnt);
         lengthWorkout = (EditText) addOtherExcerciseView.findViewById(R.id.workoutType);
-        days = (EditText) addOtherExcerciseView.findViewById(R.id.Days);
+//        days = (EditText) addOtherExcerciseView.findViewById(R.id.Days);
 
 
 
@@ -171,43 +168,21 @@ public class ExerciseFragment extends Fragment{
             public void onClick(View view) {
                 HashMap<String, String> newExcercise = new HashMap<String, String>();
                 String caloriesBurnt = caloriesBurned.getText().toString();
-                Integer workout_amount = Integer.parseInt(lengthWorkout.getText().toString());
-                Integer day = Integer.parseInt(days.getText().toString());
+//                Integer workout_amount = Integer.parseInt(lengthWorkout.getText().toString());
+//                Integer day = Integer.parseInt(days.getText().toString());
                 newExcercise.put("Name", excerciseInput);
-
-                if(caloriesBurnt  == "") {
-                    if (excerciseInput == "Running") {
-                        caloriesBurnt = String.valueOf(120 * workout_amount);
-                    }
-                    if (excerciseInput == "Jogging") {
-                        caloriesBurnt = String.valueOf(80 * workout_amount);
-                    }
-                    if (excerciseInput == "Walking") {
-                        caloriesBurnt = String.valueOf(80 * workout_amount);
-                    }
-                    if (excerciseInput == "Push Ups") {
-                        caloriesBurnt = String.valueOf(0.4 * workout_amount);
-                    }
-                    if (excerciseInput == "Bicycling") {
-                        caloriesBurnt = String.valueOf(30 * workout_amount);
-                    }
-
-
-
-
-
-                }
-
                 newExcercise.put("Calories", caloriesBurnt);
 
                 //caculate calories
 
 
-                cj.saveExercise(newExcercise);
+//                cj.saveExercise(newExcercise);
+                cj.addExerciseForDay(excerciseInput, caloriesBurnt, 1);
 
 //                cj.addExerciseForDay(excerciseInput, caloriesBurnt, 1);
 
                 populateExcercise();
+                updateProgressBar();
                 dialog.dismiss();
             }
 
@@ -229,7 +204,6 @@ public class ExerciseFragment extends Fragment{
         cj.writeFile();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -246,84 +220,152 @@ public class ExerciseFragment extends Fragment{
         addOtherExcerciseButton = (Button) view.findViewById(R.id.addOtherExcerciseItem);
         progessUpdate = (TextView) view.findViewById(R.id.progress_number);
 
+        excerciseDone = (ListView) view.findViewById(R.id.exerciseList);
+        populateExcercise();
+        adapterExcerciseDone = new ArrayAdapter<String>(getActivity(), R.layout.activity_listview, ExcercisesDoneArray);
+        excerciseDone.setAdapter(adapterExcerciseDone);
+
+        seeGraphButton = (Button) view.findViewById(R.id.seeGraphButton);
+        seeGraphButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { createGraphDialog(); }
+        });
+
+
+        excerciseExplainButton = (Button) view.findViewById(R.id.ExplainButton);
+        excerciseExplainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { createExcerciseExplainDialog(); }
+        });
+
+
         pgsBar = (ProgressBar) view.findViewById(R.id.pBar);
         i = pgsBar.getProgress();
 
 
-        new Thread(new Runnable() {
-            public void run() {
-                while (i < 250) {
-                    i += 1;
+        Integer caloriesTotal = 0;
 
+        HashMap<String, String> excerciseForDay = cj.getExerciseDay(1);
 
-                    // Update the progress bar and display the current value in text view
-                    hdlr.post(new Runnable() {
-                        public void run() {
-                            pgsBar.setProgress(i);
-                            //get the actual values here
-                            progessUpdate.setText(i+"/"+ 250);
-                            init();
+        ArrayList<String> excercisesDoneH = new ArrayList<>();
+        for (String excercise: excerciseForDay.keySet()) {
+//            excercisesDoneH.add(excercise + ": " + excerciseForDay.get(excercise));
+            caloriesTotal += Integer.parseInt(excerciseForDay.get(excercise));
+        }
 
-                        }
-                    });
-                    try {
-                        // Sleep for 100 milliseconds to show the progress slowly.
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
+        HashMap<String,String> caloriesGoalHash = cj.getExerciseGoals();
+        Integer caloriesGoal = Integer.parseInt(caloriesGoalHash.get("Calories"));
 
-        //get code for
-//        GraphView graph = (GraphView) view.findViewById(R.id.graph);
-//        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-//                new DataPoint(0, 1),
-//                new DataPoint(1, 5),
-//                new DataPoint(2, 3),
-//                new DataPoint(3, 2),
-//                new DataPoint(4, 6)
-//        });
-//        graph.addSeries(series);
+        pgsBar.setMax(caloriesGoal);
+        pgsBar.setProgress(caloriesTotal);
+        progessUpdate.setText(caloriesTotal.toString() + "/" + caloriesGoal.toString());
 
 
 
         return view;
+    }
+
+    private void createExcerciseExplainDialog(){
+        dialogBuilder = new AlertDialog.Builder(getActivity());
+        final View graphView = getLayoutInflater().inflate(R.layout.excercise_explanation, null);
+
+        explainExcercise = (TextView) view.findViewById(R.id.ExplainTheExcercise);
+
+//        explainExcercise.setText(
+//                "Pushup:  Get down on all wider than your shoulders. Lower and raise your body up"
+//        );
+
+
+
+        dialogBuilder.setView(graphView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+
 
     }
 
-    //Graph data
-    public void init() {
+    private void createGraphDialog() {
+        dialogBuilder = new AlertDialog.Builder(getActivity());
+        final View graphView = getLayoutInflater().inflate(R.layout.excercise_graph, null);
 
 
-        TextView textView = (TextView) view.findViewById(R.id.test_text);
-        ArrayList<HashMap<String,String>>  allExcercise = cj.getExerciseData();
-        String listOfExcercise = "";
-        String calories_burned = "";
-        for (int i=0;i< allExcercise.size();i++){
-            ArrayList<String> string_elements = new ArrayList<>();
-            HashMap<String,String> temp = allExcercise.get(i);
-            for(String k: temp.keySet()){
-                string_elements.add(k);
-                string_elements.add(temp.get(k));
-                listOfExcercise += k + " " + temp.get(k) + " ";
-            }
-            listOfExcercise += "\n";
+        excerciseChart = (LineChart) graphView.findViewById(R.id.caloriesOverTimeChartE);
 
-            //parse the string_elements for the important parts
+        int[] val = new int[5];
+        val[0] = 200;
+        val[1] = 300;
+        val[2] = 40;
+        val[3] = 500;
+        val[4] = 300;
+
+        ArrayList<Entry> values = new ArrayList<Entry>();
+
+        for (int i = 0; i < val.length; i ++) {
+            values.add(new Entry(i+1, val[i]));
         }
 
-        textView.setText(listOfExcercise);
+        LineDataSet set1 = new LineDataSet(values, "Calories");
+        set1.setDrawCircles(true);
+        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
+        LineData data = new LineData(dataSets);
+
+        excerciseChart.setData(data);
+        excerciseChart.getAxisLeft().setDrawGridLines(false);
+        excerciseChart.getXAxis().setDrawGridLines(false);
+        excerciseChart.getDescription().setEnabled(false);
+        excerciseChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        dialogBuilder.setView(graphView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+    }
+
+    private void populateExcercise(){
+        HashMap<String, String> excerciseForDay = cj.getExerciseDay(1);
+
+        ArrayList<String> excercisesDoneH = new ArrayList<>();
+        for (String excercise: excerciseForDay.keySet()) {
+            excercisesDoneH.add(excercise + ": " + excerciseForDay.get(excercise));
+        }
+
+        ExcercisesDoneArray = excercisesDoneH.toArray(new String[excercisesDoneH.size()]);
+
+        if (adapterExcerciseDone != null) {
+            adapterExcerciseDone = new ArrayAdapter<String>(getActivity(), R.layout.activity_listview, ExcercisesDoneArray);
+            excerciseDone.setAdapter(adapterExcerciseDone);
+        }
 
 
+    }
 
+    private void updateProgressBar(){
 
+        Integer caloriesTotal = 0;
+
+        HashMap<String, String> excerciseForDay = cj.getExerciseDay(1);
+
+        ArrayList<String> excercisesDoneH = new ArrayList<>();
+        for (String excercise: excerciseForDay.keySet()) {
+//            excercisesDoneH.add(excercise + ": " + excerciseForDay.get(excercise));
+            caloriesTotal += Integer.parseInt(excerciseForDay.get(excercise));
+        }
+
+        HashMap<String,String> caloriesGoalHash = cj.getExerciseGoals();
+        Integer caloriesGoal = Integer.parseInt(caloriesGoalHash.get("Calories"));
+
+        pgsBar.setMax(caloriesGoal);
+        pgsBar.setProgress(caloriesTotal);
+        progessUpdate.setText(caloriesTotal.toString() + "/" + caloriesGoal.toString());
 
 
 
 
     }
+
+
 
 
 

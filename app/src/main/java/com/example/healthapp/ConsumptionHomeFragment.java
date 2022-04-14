@@ -87,7 +87,7 @@ public class ConsumptionHomeFragment extends Fragment {
         globalAddFoodButton = (Button) view.findViewById(R.id.addFoodButton);
         globalAddFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
-             public void onClick(View view) { createAddFoodDialog(); }
+            public void onClick(View view) { createAddFoodDialog(); }
         });
 
         seeGraphButton = (Button) view.findViewById(R.id.seeGraphButton);
