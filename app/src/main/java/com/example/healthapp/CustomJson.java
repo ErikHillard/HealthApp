@@ -56,7 +56,29 @@ public class CustomJson {
             "{\"Calories\":\"2000\"}," +
             "{\"Calories\":\"2100\"}," +
             "{\"Calories\":\"1800\"}" +
-            "]" +
+            "]," +
+            "\"exercise_for_graph\":[" +
+            "{\"Calories\":\"200\"}," +
+            "{\"Calories\":\"300\"}," +
+            "{\"Calories\":\"40\"}," +
+            "{\"Calories\":\"500\"}," +
+            "{\"Calories\":\"300\"}" +
+            "]," +
+            "\"user\":[{" +
+            "\"Username\":\"user\"," +
+            "\"Password\":\"pass\"," +
+            "\"Height\":\"190\"," +
+            "\"Weight\":\"200\"," +
+            "\"Age\":\"50\"" +
+            "}]," +
+            "\"happy\":[{" +
+            "\"submitted\":\"0\"," +
+            "\"0\":\"2\"," +
+            "\"1\":\"2\"," +
+            "\"2\":\"2\"," +
+            "\"3\":\"2\"," +
+            "\"4\":\"2\"" +
+            "}]" +
             "}";
 
     HashMap<String, ArrayList<HashMap<String, String>>> data;
@@ -65,7 +87,7 @@ public class CustomJson {
         this.file = file;
         gson = new Gson();
         data = new HashMap<>();
-        if (!file.exists() || true) {//change this to true to reset json file to default state (json_string)
+        if (!file.exists()) {//change this to true to reset json file to default state (json_string)
             writeFile();
         }
         readFile();
@@ -190,6 +212,29 @@ public class CustomJson {
         ja = json_data.get("calories_for_graph").getAsJsonArray();
         data.put("calories_for_graph", gson.fromJson(ja, ArrayList.class));
 
+        ja = json_data.get("user").getAsJsonArray();
+        data.put("user", gson.fromJson(ja, ArrayList.class));
+
+        ja = json_data.get("happy").getAsJsonArray();
+        data.put("happy", gson.fromJson(ja, ArrayList.class));
+
+    }
+
+    public ArrayList<HashMap<String, String>> getGraphStats() {
+        ArrayList<HashMap<String, String>> ret = new ArrayList(data.get("calories_for_graph").size());
+        for (int i = 0; i < data.get("calories_for_graph").size(); i ++) {
+            ret.add(new HashMap(data.get("calories_for_graph").get(i)));
+        }
+        return ret;
+    }
+
+    public ArrayList<HashMap<String, String>> getGraphStatsE() {
+        ArrayList<HashMap<String, String>> ret = new ArrayList(data.get("exercise_for_graph").size());
+        for (int i = 0; i < data.get("exercise_for_graph").size(); i ++) {
+            ret.add(new HashMap(data.get("exercise_for_graph").get(i)));
+        }
+        return ret;
+
     }
 
     public ArrayList<HashMap<String, String>> getGraphStats() {
@@ -211,8 +256,24 @@ public class CustomJson {
         return ret;
     }
 
+    public void putHappy(String s) {
+        Map<String, String> userData = data.get("happy").get(0);
+        userData.replace(Integer.toString(userData.size()- 2), s);
+        userData.replace("submitted", "1");
+    }
+
+    public void removeHappy() {
+        Map<String, String> userData = data.get("happy").get(0);
+        userData.remove(Integer.toString(userData.size() - 2));
+        userData.replace("submitted", "0");
+    }
+
     public HashMap<String, String> getExerciseDay(int day) {
         return new HashMap(data.get("exercise").get(day));
+    }
+
+    public HashMap<String, String> getHappiness() {
+        return new HashMap(data.get("happy").get(0));
     }
 
     public ArrayList<HashMap<String, String>> getAllExercise() {
@@ -225,6 +286,11 @@ public class CustomJson {
 
     public HashMap<String, String> getFoodGoals() {
         return new HashMap(data.get("food_goals").get(0));
+    }
+
+    public HashMap<String, String> getUser() {
+        HashMap <String, String> userData = new HashMap(data.get("user").get(0));
+        return new HashMap(data.get("user").get(0));
     }
 
     public HashMap<String, String> getExerciseGoals() {
@@ -245,6 +311,14 @@ public class CustomJson {
             ret.add(new HashMap(data.get("exercise_data").get(i)));
         }
         return ret;
+    }
+
+    public void removeAllData() {
+        data.replace("food",new ArrayList<>());
+        data.replace("exercise",new ArrayList<>());
+        data.replace("food_goals",new ArrayList<>());
+        data.replace("exercise_goals",new ArrayList<>());
+        data.replace("happy", new ArrayList<>());
     }
 
     public void removeFoodFromDay(String food, int day) {
@@ -273,5 +347,30 @@ public class CustomJson {
         if (data.get("exercise_goals").get(0).containsKey(attr)) {
             data.get("exercise_goals").get(0).remove(attr);
         }
+    }
+
+    public void removeAllGoals() {
+        data.get("exercise_goals").get(0).clear();
+        data.get("food_goals").get(0).clear();
+    }
+
+    public void replaceUser(String username, String password, String age, String height,
+                                String weight) {
+        Map <String, String> userData = data.get("user").get(0);
+        userData.replace("Username", username);
+        userData.replace("Password", password);
+        userData.replace("Age", age);
+        userData.replace("Height", height);
+        userData.replace("Weight", weight);
+    }
+
+    public String getUserName() {
+        Map<String, String> userData = data.get("user").get(0);
+        return userData.get("Username");
+    }
+
+    public String getUserPassword() {
+        Map<String, String> userData = data.get("user").get(0);
+        return userData.get("Password");
     }
 }
