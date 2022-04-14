@@ -46,13 +46,10 @@ public class CustomJson {
             "{\"Name\":\"Potato Chips\",\"Calories\":\"150\",\"Protein\":\"2\",\"Sodium\":\"10\"}," +
             "{\"Name\":\"Pop Tarts\",\"Calories\":\"240\",\"Protein\":\"2\",\"Sodium\":\"2\"}" +
             "]," +
-
-
             "\"exercise_data\":[" +
             "{\"Name\":\"Running\",\"Calories\":\"300\"}," +
             "{\"Name\":\"Walking\",\"Calories\":\"80\"}" +
             "]," +
-
             "\"calories_for_graph\":[" +
             "{\"Calories\":\"1200\"}," +
             "{\"Calories\":\"1400\"}," +
@@ -60,7 +57,6 @@ public class CustomJson {
             "{\"Calories\":\"2100\"}," +
             "{\"Calories\":\"1800\"}" +
             "]," +
-
             "\"exercise_for_graph\":[" +
             "{\"Calories\":\"200\"}," +
             "{\"Calories\":\"300\"}," +
@@ -68,8 +64,6 @@ public class CustomJson {
             "{\"Calories\":\"500\"}," +
             "{\"Calories\":\"300\"}" +
             "]," +
-
-
             "\"user\":[{" +
             "\"Username\":\"user\"," +
             "\"Password\":\"pass\"," +
@@ -243,6 +237,13 @@ public class CustomJson {
 
     }
 
+    public ArrayList<HashMap<String, String>> getGraphStats() {
+        ArrayList<HashMap<String, String>> ret = new ArrayList(data.get("calories_for_graph").size());
+        for (int i = 0; i < data.get("calories_for_graph").size(); i ++) {
+            ret.add(new HashMap(data.get("calories_for_graph").get(i)));
+        }
+        return ret;
+    }
     public HashMap<String, String> getFoodDay(int day) {
         return new HashMap(data.get("food").get(day));
     }
