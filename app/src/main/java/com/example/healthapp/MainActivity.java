@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("Home");
 
+        getFragment(new ConsumptionHomeFragment(getFilesDir()));
         getFragment(new HomeFragment());
         Bundle extras = getIntent().getExtras();
 

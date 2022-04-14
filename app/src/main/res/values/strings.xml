@@ -11,6 +11,11 @@
         <item>@string/color01</item>
         <item>@string/color02</item>
     </string-array>
+    <string-array name="goal_choices">
+        <item>Running (Miles)</item>
+        <item>Walking (Miles)</item>
+        <item>Calories Burned</item>
+    </string-array>
     <string name="title_activity_exercise">ExerciseActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

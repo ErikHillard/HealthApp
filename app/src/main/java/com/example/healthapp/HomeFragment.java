@@ -10,7 +10,9 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -43,7 +45,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         populateData();
-        MaterialButton clearGoalsButton = (MaterialButton) view.findViewById(R.id.clearGoals);
+        MaterialButton clearGoalsButton = (MaterialButton) getActivity().findViewById(R.id.clearGoals);
 
         clearGoalsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,14 +55,14 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        MaterialButton addGoalButton = (MaterialButton) view.findViewById(R.id.addGoal);
+        
+
+        MaterialButton addGoalButton = (MaterialButton) getActivity().findViewById(R.id.addGoal);
         addGoalButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        cj.addFoodGoal("Calories", "2000");
-                        cj.addFoodGoal("Protein", "200");
-                        cj.addExerciseGoal("Running", "100");
+
                         populateData();
                     }
                 }
@@ -69,25 +71,32 @@ public class HomeFragment extends Fragment {
 
         HashMap<String, String> happinessData = cj.getHappiness();
         Boolean submitted = happinessData.get("submitted").equals("1");
-        MaterialButton submitSlide = (MaterialButton) view.findViewById(R.id.sliderSubmit);
-        Slider slider = view.findViewById(R.id.happySlider);
+        MaterialButton submitSlide = (MaterialButton) getActivity().findViewById(R.id.sliderSubmit);
+        Slider slider = getActivity().findViewById(R.id.happySlider);
+        TextView sliderLabel = getActivity().findViewById(R.id.sliderLabel);
         if (submitted) {
             slider.setVisibility(view.GONE);
             submitSlide.setText("Resubmit");
+            sliderLabel.setText("Thank you! Click resubmit to \nedit your response.");
         }
 
         submitSlide.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (happinessData.get("submitted").equals("1")) {
+                        HashMap<String, String> happyData = cj.getHappiness();
+                        if (happyData.get("submitted").equals("1")) {
                             slider.setVisibility(view.VISIBLE);
                             cj.removeHappy();
+                            cj.writeFile();
+                            sliderLabel.setText("How are you feeling today?");
                             submitSlide.setText("Submit");
                         } else {
                             String happiness = Integer.toString((int)slider.getValue());
                             cj.putHappy(happiness);
+                            cj.writeFile();
                             submitSlide.setText("Resubmit");
+                            sliderLabel.setText("Thank you! Click resubmit to \nedit your response.");
                             slider.setVisibility(view.GONE);
                         }
                     }
@@ -186,5 +195,6 @@ public class HomeFragment extends Fragment {
     public void onStop() {
         super.onStop();
         cj.writeFile();
+        cj = null;
     }
 }
