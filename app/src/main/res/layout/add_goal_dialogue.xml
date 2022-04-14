@@ -20,58 +20,53 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.937" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <AutoCompleteTextView
         android:id="@+id/addGoalSpinner"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:ems="15"
+        android:text=""
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
-        app:layout_constraintBottom_toTopOf="@+id/addExistingFoodItem"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent" >
-
-        <AutoCompleteTextView
-            android:layout_width=""
-            android:layout_height=""
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <Button
-        android:id="@+id/addExistingFoodItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="Select Food Item Above"
         app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/addOtherFoodItem"
+        android:id="@+id/addGoalButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Add Other Food Item"
+        android:text="Add Goal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/goalTotal"
+        android:layout_margin="10dp"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorAccent"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@id/addGoalButton"/>
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:text="Or"
+        android:text="For"
         android:textAlignment="center"
         android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/addOtherFoodItem"
+        app:layout_constraintBottom_toTopOf="@+id/goalTotal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />

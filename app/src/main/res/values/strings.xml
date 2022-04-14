@@ -11,10 +11,15 @@
         <item>@string/color01</item>
         <item>@string/color02</item>
     </string-array>
-    <string-array name="goal_choices">
+    <string-array name="goal_choices_exercise">
         <item>Running (Miles)</item>
         <item>Walking (Miles)</item>
         <item>Calories Burned</item>
+    </string-array>
+    <string-array name="goal_choices_food">
+        <item>Calories</item>
+        <item>Protein</item>
+        <item>Sodium</item>
     </string-array>
     <string name="title_activity_exercise">ExerciseActivity</string>
     <!-- Strings used for fragments for navigation -->

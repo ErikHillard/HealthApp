@@ -228,14 +228,11 @@ public class ConsumptionHomeFragment extends Fragment {
         adapterExistingFood = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, FOODS);
         addExistingFoodAutoComplete.setThreshold(1);
         addExistingFoodAutoComplete.setAdapter(adapterExistingFood);
-        addExistingFoodAutoComplete.setTextColor(Color.RED);
-
 
         addExistingFoodAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
                 selectedFood = (String) parent.getItemAtPosition(pos);
-                addExistingFoodItemButton.setText("Add " + selectedFood);
             }
         });
 

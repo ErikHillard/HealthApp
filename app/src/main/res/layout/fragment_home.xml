@@ -33,7 +33,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="30dp"
-        android:text="How are you feeling today?"
+        android:text="How are you feeling today?\n1 = Sad : 5 = happy"
         />
 
     <com.google.android.material.button.MaterialButton
