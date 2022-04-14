@@ -28,35 +28,35 @@
         android:hint="Calories Burned"
         android:textAlignment="center" />
 
-    <EditText
-        android:id="@+id/caloriesBur"
-        android:digits="1234567890"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/caloriesBurnt"
-        android:layout_marginTop="20dp"
-        android:textSize="24dp"
-        android:hint="Amount of Work Done(i.e miles, reps)"
-        android:textAlignment="center" />
+<!--    <EditText-->
+<!--        android:id="@+id/caloriesBur"-->
+<!--        android:digits="1234567890"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/caloriesBurnt"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:textSize="24dp"-->
+<!--        android:hint="Amount of Work Done(i.e miles, reps)"-->
+<!--        android:textAlignment="center" />-->
 
 
-    <EditText
-        android:id="@+id/Days"
-        android:digits="1234567890"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/caloriesBur"
-        android:layout_marginTop="20dp"
-        android:textSize="24dp"
-        android:hint="Days"
-        android:textAlignment="center" />
+<!--    <EditText-->
+<!--        android:id="@+id/Days"-->
+<!--        android:digits="1234567890"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/caloriesBur"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:textSize="24dp"-->
+<!--        android:hint="Days"-->
+<!--        android:textAlignment="center" />-->
 
 
     <Button
         android:id="@+id/addOtherExcerciseItemSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Days"
+        android:layout_below="@+id/caloriesBurnt"
         android:layout_alignParentStart="true"
         android:layout_marginStart="57dp"
         android:layout_marginTop="127dp"
@@ -66,7 +66,7 @@
         android:id="@+id/addOtherExcerciseItemCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Days"
+        android:layout_below="@+id/caloriesBurnt"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="127dp"
         android:layout_marginEnd="58dp"

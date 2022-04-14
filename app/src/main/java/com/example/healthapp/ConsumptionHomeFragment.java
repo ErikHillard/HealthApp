@@ -1,6 +1,8 @@
 package com.example.healthapp;
 
 import android.app.AlertDialog;
+
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.graphics.Color;
 import androidx.fragment.app.Fragment;
@@ -20,10 +22,14 @@ import android.widget.TextView;
 import android.widget.ListView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -69,6 +75,7 @@ public class ConsumptionHomeFragment extends Fragment {
 
     // Graph Assets
     private LineChart caloriesOverTime;
+    private Button graphBackButton;
 
     // Constructor
     public ConsumptionHomeFragment(File files_dir) {
@@ -189,6 +196,11 @@ public class ConsumptionHomeFragment extends Fragment {
         dialogBuilder = new AlertDialog.Builder(getActivity());
         final View graphView = getLayoutInflater().inflate(R.layout.consumption_graph, null);
 
+        graphBackButton = (Button) graphView.findViewById(R.id.graphBackButton);
+        graphBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { dialog.dismiss(); }
+        });
         caloriesOverTime = (LineChart) graphView.findViewById(R.id.caloriesOverTimeChart);
 
         // Get Entries
@@ -212,7 +224,7 @@ public class ConsumptionHomeFragment extends Fragment {
         caloriesOverTime.getAxisLeft().setDrawGridLines(false);
         caloriesOverTime.getXAxis().setDrawGridLines(false);
         caloriesOverTime.getDescription().setEnabled(false);
-        caloriesOverTime.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        caloriesOverTime.getXAxis().setDrawLabels(false);
 
         dialogBuilder.setView(graphView);
         dialog = dialogBuilder.create();
@@ -228,11 +240,14 @@ public class ConsumptionHomeFragment extends Fragment {
         adapterExistingFood = new ArrayAdapter<String>(getActivity(), android.R.layout.select_dialog_item, FOODS);
         addExistingFoodAutoComplete.setThreshold(1);
         addExistingFoodAutoComplete.setAdapter(adapterExistingFood);
+        addExistingFoodAutoComplete.setTextColor(Color.RED);
+
 
         addExistingFoodAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
                 selectedFood = (String) parent.getItemAtPosition(pos);
+                addExistingFoodItemButton.setText("Add " + selectedFood);
             }
         });
 
@@ -253,7 +268,6 @@ public class ConsumptionHomeFragment extends Fragment {
                 createAddOtherFoodDialog();
             }
         });
-
 
         dialogBuilder.setView(addFoodView);
         dialog = dialogBuilder.create();
@@ -299,6 +313,10 @@ public class ConsumptionHomeFragment extends Fragment {
 
                 String foodNameInput = selectedFood;
                 String servingsInput = numServings.getText().toString();
+
+                if (servingsInput.equals("")) {
+                    return;
+                }
 
                 cj.addFoodForDay(foodNameInput, servingsInput, currentDay);
 
@@ -368,29 +386,20 @@ public class ConsumptionHomeFragment extends Fragment {
                     proteinNum = Integer.parseInt(protein.getText().toString());
                 }
 
-//                Log.d("myTag", foodNameText);
-//                Log.d("myTag", "servings " + servingsNum);
-//                Log.d("myTag", "calories:" + caloriesNum);
-//                Log.d("myTag", "sodium:" + sodiumNum);
-//                Log.d("myTag", "sugar:" + sugarNum);
-//                Log.d("myTag", "protein:" + proteinNum);
+                Log.d("myTag", foodNameText);
+                Log.d("myTag", "servings " + servingsNum);
+                Log.d("myTag", "calories:" + caloriesNum);
+                Log.d("myTag", "sodium:" + sodiumNum);
+                Log.d("myTag", "sugar:" + sugarNum);
+                Log.d("myTag", "protein:" + proteinNum);
 
                 HashMap<String, String> newFood = new HashMap<String, String>();
                 newFood.put("Name", foodNameText);
                 newFood.put("Calories", String.valueOf(caloriesNum));
                 newFood.put("Protein", String.valueOf(proteinNum));
-                newFood.put("Sodium", String.valueOf(sodiumNum));
 
-                if (sugarNum != -1) {
-                    newFood.put("Sugar", String.valueOf(sugarNum));
-                }
-
-                cj.saveFood(newFood);  //add food to dict
-                cj.addFoodForDay(foodNameText, String.valueOf(servingsNum), currentDay); //add food that was eaten today
-
-                populateFoods();  // For Autocompletetextview to remember
-                populateFoodsEaten(); // For listview of eaten items
-                updateProgressBars();
+                cj.saveFood(newFood);
+                populateFoods();
 
                 dialog.dismiss();
             }

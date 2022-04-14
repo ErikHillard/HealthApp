@@ -37,7 +37,6 @@ public class HomeFragment extends Fragment {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     String selectedGoal;
-
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -128,6 +127,7 @@ public class HomeFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         createAddFoodDialog();
                         populateData();
                     }
@@ -162,6 +162,7 @@ public class HomeFragment extends Fragment {
                             cj.writeFile();
                             submitSlide.setText("Resubmit");
                             sliderLabel.setText("Thank you! Click resubmit to \nedit your response.");
+                            submitSlide.setText("Resubmit");
                             slider.setVisibility(view.GONE);
                         }
                     }

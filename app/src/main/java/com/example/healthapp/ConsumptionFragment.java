@@ -111,7 +111,6 @@ public class ConsumptionFragment extends Fragment {
     public void createExistingFoodDiaglog() {
         dialogBuilder = new AlertDialog.Builder(getActivity());
         final View addExistingFoodView = getLayoutInflater().inflate(R.layout.add_existing_food_dialog, null);
-
         general = (TextView) addExistingFoodView.findViewById(R.id.general);
         caloriesOverview = (TextView) addExistingFoodView.findViewById(R.id.caloriesOverview);
         sodiumOverview = (TextView) addExistingFoodView.findViewById(R.id.sodiumOverview);
@@ -146,7 +145,6 @@ public class ConsumptionFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-
 
         addExistingFoodCancel = (Button) addExistingFoodView.findViewById(R.id.addExistingFoodCancel);
         addExistingFoodCancel.setOnClickListener(new View.OnClickListener() {

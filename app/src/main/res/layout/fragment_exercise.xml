@@ -7,10 +7,29 @@
     tools:context=".MainActivity">
 
 
-<!--    <com.jjoe64.graphview.GraphView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="200dip"-->
-<!--        android:id="@+id/graph" />-->
+    <Button
+        android:id="@+id/seeGraphButton"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="24dp"
+        android:text="See graph"
+        android:textSize="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/ExplainButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="Explain Excercises"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.518"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.847" />
 
     <TextView
         android:id="@+id/exerciseFragment"
@@ -22,10 +41,10 @@
         android:textStyle="italic|bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.371"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
-
 
     <TextView
         android:id="@+id/progress_number"
@@ -33,29 +52,26 @@
         android:layout_height="wrap_content"
         android:text="200/200"
         android:textColor="@color/black"
-        android:textSize="40sp"
+        android:textSize="20sp"
         android:textStyle="italic|bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.147" />
+        app:layout_constraintVertical_bias="0.174" />
 
-
-    <TextView
-        android:id="@+id/test_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ASDJLKAFK:LLKAJFKLASF"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:textStyle="italic|bold"
+    <ListView
+        android:id="@+id/exerciseList"
+        android:layout_width="298dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/progress_number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.584"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.633" />
+        app:layout_constraintVertical_bias="0.385" />
 
     <ProgressBar
         android:id="@+id/pBar"
@@ -65,66 +81,32 @@
         android:layout_below="@+id/progress_number"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="28dp"
         android:indeterminate="false"
         android:max="250"
         android:minWidth="200dp"
         android:minHeight="50dp"
         android:progress="0"
+        app:layout_constraintBottom_toTopOf="@+id/exerciseList"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.561"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exerciseFragment"
+        app:layout_constraintVertical_bias="0.132"
         tools:ignore="MissingConstraints" />
-
-
-<!--    <ScrollView-->
-<!--        android:id="@+id/scrollView1"-->
-<!--        android:layout_width="fill_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentLeft="true"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:background="#3d455b"-->
-<!--        android:visibility="visible"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/exerciseFragment"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.125">-->
-
-<!--        <HorizontalScrollView-->
-<!--            android:id="@+id/hscrll1"-->
-<!--            android:layout_width="fill_parent"-->
-<!--            android:layout_height="wrap_content">-->
-
-<!--            <RelativeLayout-->
-<!--                android:id="@+id/RelativeLayout1"-->
-<!--                android:layout_width="fill_parent"-->
-<!--                android:layout_height="fill_parent"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TableLayout-->
-<!--                    android:id="@+id/table_main"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_centerHorizontal="true"></TableLayout>-->
-<!--            </RelativeLayout>-->
-<!--        </HorizontalScrollView>-->
-<!--    </ScrollView>-->
-
-
 
     <Button
         android:id="@+id/addOtherExcerciseItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/exerciseList"
         android:text="Add Excercise"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.862" />
+        app:layout_constraintVertical_bias="0.951" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
