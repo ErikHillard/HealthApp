@@ -78,6 +78,7 @@ public class CustomJson {
             "\"Age\":\"50\"" +
             "}]," +
             "\"happy\":[{" +
+            "\"submitted\":\"0\"," +
             "\"0\":\"2\"," +
             "\"1\":\"2\"," +
             "\"2\":\"2\"," +
@@ -220,6 +221,9 @@ public class CustomJson {
         ja = json_data.get("user").getAsJsonArray();
         data.put("user", gson.fromJson(ja, ArrayList.class));
 
+        ja = json_data.get("happy").getAsJsonArray();
+        data.put("happy", gson.fromJson(ja, ArrayList.class));
+
     }
 
     public ArrayList<HashMap<String, String>> getGraphStats() {
@@ -251,8 +255,24 @@ public class CustomJson {
         return ret;
     }
 
+    public void putHappy(String s) {
+        Map<String, String> userData = data.get("happy").get(0);
+        userData.replace(Integer.toString(userData.size()- 2), s);
+        userData.replace("submitted", "1");
+    }
+
+    public void removeHappy() {
+        Map<String, String> userData = data.get("happy").get(0);
+        userData.remove(Integer.toString(userData.size() - 2));
+        userData.replace("submitted", "0");
+    }
+
     public HashMap<String, String> getExerciseDay(int day) {
         return new HashMap(data.get("exercise").get(day));
+    }
+
+    public HashMap<String, String> getHappiness() {
+        return new HashMap(data.get("happy").get(0));
     }
 
     public ArrayList<HashMap<String, String>> getAllExercise() {
