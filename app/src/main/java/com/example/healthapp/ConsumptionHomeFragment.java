@@ -1,6 +1,7 @@
 package com.example.healthapp;
 
 import android.app.AlertDialog;
+
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.graphics.Color;
@@ -357,23 +358,17 @@ public class ConsumptionHomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Might want to make it so that if no food name or calories we cant accept
-                if (foodName.getText().toString().equals("")
-                || calories.getText().toString().equals("")
-                || servings.getText().toString().equals("")
-                || sodium.getText().toString().equals("")
-                || protein.getText().toString().equals("")){
-                    AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
-                    adb.setMessage("Please fill out all non-optional fields.");
-                    adb.setCancelable(true);
-                    return;
-                }
-
                 String foodNameText = foodName.getText().toString();
                 int caloriesNum = Integer.parseInt(calories.getText().toString());
                 int servingsNum = Integer.parseInt(servings.getText().toString());
-                int sodiumNum = Integer.parseInt(sodium.getText().toString());
-                int proteinNum = Integer.parseInt(protein.getText().toString());
 
+                int sodiumNum;
+                if (sodium.getText().toString().trim().length() == 0) {
+                    sodiumNum = -1;
+                }
+                else {
+                    sodiumNum = Integer.parseInt(sodium.getText().toString());
+                }
 
                 int sugarNum;
                 if (sugar.getText().toString().trim().length() == 0) {
@@ -383,29 +378,28 @@ public class ConsumptionHomeFragment extends Fragment {
                     sugarNum = Integer.parseInt(sugar.getText().toString());
                 }
 
-//                Log.d("myTag", foodNameText);
-//                Log.d("myTag", "servings " + servingsNum);
-//                Log.d("myTag", "calories:" + caloriesNum);
-//                Log.d("myTag", "sodium:" + sodiumNum);
-//                Log.d("myTag", "sugar:" + sugarNum);
-//                Log.d("myTag", "protein:" + proteinNum);
+                int proteinNum;
+                if (protein.getText().toString().trim().length() == 0) {
+                    proteinNum = -1;
+                }
+                else {
+                    proteinNum = Integer.parseInt(protein.getText().toString());
+                }
+
+                Log.d("myTag", foodNameText);
+                Log.d("myTag", "servings " + servingsNum);
+                Log.d("myTag", "calories:" + caloriesNum);
+                Log.d("myTag", "sodium:" + sodiumNum);
+                Log.d("myTag", "sugar:" + sugarNum);
+                Log.d("myTag", "protein:" + proteinNum);
 
                 HashMap<String, String> newFood = new HashMap<String, String>();
                 newFood.put("Name", foodNameText);
                 newFood.put("Calories", String.valueOf(caloriesNum));
                 newFood.put("Protein", String.valueOf(proteinNum));
-                newFood.put("Sodium", String.valueOf(sodiumNum));
 
-                if (sugarNum != -1) {
-                    newFood.put("Sugar", String.valueOf(sugarNum));
-                }
-
-                cj.saveFood(newFood);  //add food to dict
-                cj.addFoodForDay(foodNameText, String.valueOf(servingsNum), currentDay); //add food that was eaten today
-
-                populateFoods();  // For Autocompletetextview to remember
-                populateFoodsEaten(); // For listview of eaten items
-                updateProgressBars();
+                cj.saveFood(newFood);
+                populateFoods();
 
                 dialog.dismiss();
             }

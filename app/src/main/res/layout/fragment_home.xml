@@ -33,21 +33,20 @@
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="30dp"
-        android:text="How are you feeling today?"
+        android:text="How are you feeling today?\n1 = Sad : 5 = happy"
         />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/sliderSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_below="@id/username"
-        android:id="@+id/sliderSubmit"
-        android:textSize="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="20dp"
         android:text="Submit"
-        />
+        android:textSize="15dp" />
     <com.google.android.material.slider.Slider
         android:id="@+id/happySlider"
         android:layout_width="match_parent"

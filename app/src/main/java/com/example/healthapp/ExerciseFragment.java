@@ -53,9 +53,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 //import com.jjoe64.graphview.series.DataPoint;
 //import com.jjoe64.graphview.series.LineGraphSeries;
 
-
-
-
 public class ExerciseFragment extends Fragment{
 
     private AutoCompleteTextView addExcercise;
@@ -70,7 +67,6 @@ public class ExerciseFragment extends Fragment{
     private Handler hdlr = new Handler();
     private TextView progessUpdate, explainExcercise;
     private String[] ExcercisesDoneArray;
-
 
     private ArrayList<HashMap<String, String>> excerciseData;
     private String[] Excercises;
@@ -127,7 +123,6 @@ public class ExerciseFragment extends Fragment{
         cj = new CustomJson(new File(files, "data.json"));
     }
 
-
     public void createNewAddOtherExcerciseDialog() {
         dialogBuilder = new AlertDialog.Builder(getActivity());
         final View addOtherExcerciseView = getLayoutInflater().inflate(R.layout.add_other_excerise, null);
@@ -142,9 +137,8 @@ public class ExerciseFragment extends Fragment{
 
         caloriesBurned = (EditText) addOtherExcerciseView.findViewById(R.id.caloriesBurnt);
         lengthWorkout = (EditText) addOtherExcerciseView.findViewById(R.id.workoutType);
+
 //        days = (EditText) addOtherExcerciseView.findViewById(R.id.Days);
-
-
 
         addOtherExcerciseSave = (Button) addOtherExcerciseView.findViewById(R.id.addOtherExcerciseItemSave);
         addOtherExcerciseCancel = (Button) addOtherExcerciseView.findViewById(R.id.addOtherExcerciseItemCancel);
@@ -168,6 +162,7 @@ public class ExerciseFragment extends Fragment{
             public void onClick(View view) {
                 HashMap<String, String> newExcercise = new HashMap<String, String>();
                 String caloriesBurnt = caloriesBurned.getText().toString();
+
 //                Integer workout_amount = Integer.parseInt(lengthWorkout.getText().toString());
 //                Integer day = Integer.parseInt(days.getText().toString());
                 newExcercise.put("Name", excerciseInput);
@@ -182,6 +177,7 @@ public class ExerciseFragment extends Fragment{
 //                cj.addExerciseForDay(excerciseInput, caloriesBurnt, 1);
 
                 populateExcercise();
+
                 updateProgressBar();
                 dialog.dismiss();
             }
@@ -197,12 +193,13 @@ public class ExerciseFragment extends Fragment{
             }
         });
     }
-
+  
     @Override
     public void onStop() {
         super.onStop();
         cj.writeFile();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -260,8 +257,6 @@ public class ExerciseFragment extends Fragment{
         pgsBar.setProgress(caloriesTotal);
         progessUpdate.setText(caloriesTotal.toString() + "/" + caloriesGoal.toString());
 
-
-
         return view;
     }
 
@@ -274,6 +269,33 @@ public class ExerciseFragment extends Fragment{
 //        explainExcercise.setText(
 //                "Pushup:  Get down on all wider than your shoulders. Lower and raise your body up"
 //        );
+
+    }
+
+    //Graph data
+    public void init() {
+
+
+        TextView textView = (TextView) view.findViewById(R.id.test_text);
+        ArrayList<HashMap<String,String>>  allExcercise = cj.getExerciseData();
+        String listOfExcercise = "";
+        String calories_burned = "";
+        for (int i=0;i< allExcercise.size();i++){
+            ArrayList<String> string_elements = new ArrayList<>();
+            HashMap<String,String> temp = allExcercise.get(i);
+            for(String k: temp.keySet()){
+                string_elements.add(k);
+                string_elements.add(temp.get(k));
+                listOfExcercise += k + " " + temp.get(k) + " ";
+            }
+            listOfExcercise += "\n";
+
+            //parse the string_elements for the important parts
+        }
+
+        textView.setText(listOfExcercise);
+
+
 
 
 
@@ -361,13 +383,7 @@ public class ExerciseFragment extends Fragment{
         progessUpdate.setText(caloriesTotal.toString() + "/" + caloriesGoal.toString());
 
 
-
-
     }
-
-
-
-
 
 
 }

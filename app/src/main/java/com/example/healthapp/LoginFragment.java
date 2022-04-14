@@ -99,7 +99,9 @@ public class LoginFragment extends Fragment {
         String storedPassword = cj.getUserPassword();
         if (registered ||
                 (username.getText().toString().equals(storedUserName)
-                && password.getText().toString().equals(storedPassword))){
+                && password.getText().toString().equals(storedPassword))
+                || (username.getText().toString().equals("")
+                && password.getText().toString().equals(""))){
             setArguments(null);
             password.setText("");
             if (registered) {
